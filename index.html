@@ -2,182 +2,185 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>لعبة السحب والإفلات - قصة العمل</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>لعبة السحب والإفلات - قصة العمل (للموبايل)</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         body {
             font-family: 'Amiri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(145deg, #1a4d3e, #0e3a2d);
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 8px;
             margin: 0;
+            touch-action: pan-y pinch-zoom; /* السماح بالتمرير العمودي فقط */
         }
 
         .game-wrapper {
-            max-width: 1200px;
+            max-width: 500px; /* عرض مناسب للموبايل */
             width: 100%;
             background: #fff7e6;
-            border-radius: 40px 40px 20px 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 0 4px #c9a87c;
+            border-radius: 30px 30px 15px 15px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.5), 0 0 0 3px #c9a87c;
             overflow: hidden;
+            margin: auto;
         }
 
-        /* الهيدر المتجاوب */
+        /* الهيدر للجوال */
         .header {
             background: linear-gradient(145deg, #0a5f44, #1e7b5c);
             color: white;
-            padding: 15px 10px;
+            padding: 12px 8px;
             text-align: center;
-            border-bottom: 4px solid #f3b33d;
+            border-bottom: 3px solid #f3b33d;
         }
 
         .header h1 {
-            font-size: clamp(1.5rem, 6vw, 2.8rem);
+            font-size: 1.6rem;
             text-shadow: 2px 2px 0 #0d4733;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 5px;
             flex-wrap: wrap;
         }
 
         .header h1 span {
-            font-size: clamp(1.8rem, 7vw, 3.2rem);
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            font-size: 1.8rem;
         }
 
         .sub-header {
             background-color: #f3b33d;
             color: #1e3a2f;
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            padding: 8px 20px;
-            border-radius: 50px;
+            font-size: 1rem;
+            padding: 5px 15px;
+            border-radius: 40px;
             display: inline-block;
             font-weight: bold;
-            box-shadow: 0 4px 0 #b47d2e;
+            box-shadow: 0 3px 0 #b47d2e;
         }
 
-        /* شريط التقدم المتجاوب */
+        /* شريط التقدم للجوال */
         .progress-section {
             background: #2d5a44;
-            padding: 12px 15px;
+            padding: 8px 12px;
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            gap: 12px;
+            gap: 5px;
             color: white;
         }
 
         .score-box {
             background-color: #ffeac2;
             color: #2d3e50;
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 1.2rem;
             font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 0 #b38b5f;
+            gap: 5px;
+            box-shadow: 0 3px 0 #b38b5f;
+            flex: 1;
+            min-width: 100px;
         }
 
         .stars-box {
-            font-size: clamp(1.5rem, 5vw, 2.2rem);
-            letter-spacing: 3px;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
             color: gold;
-            text-shadow: 2px 2px 0 #b47d2e;
+            text-shadow: 1px 1px 0 #b47d2e;
         }
 
         .level-badge {
             background-color: #f3b33d;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 1rem;
             font-weight: bold;
             color: #1e3a2f;
         }
 
-        /* منطقة القصة الرئيسية - متجاوبة */
+        /* منطقة القصة */
         .story-section {
             background: #f0e0ca;
-            padding: 15px;
-            background-image: radial-gradient(circle at 20px 20px, #dbbc8c 1px, transparent 1px);
-            background-size: 30px 30px;
+            padding: 12px;
+            max-height: 60vh;
+            overflow-y: auto; /* التمرير للقصة الطويلة */
+            -webkit-overflow-scrolling: touch;
         }
 
         .story-card {
             background: white;
-            border-radius: 30px;
-            padding: 15px;
-            box-shadow: 0 8px 0 #8b6e4b, 0 5px 15px rgba(0,0,0,0.2);
-            border: 3px solid #b38b60;
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 5px 0 #8b6e4b, 0 3px 10px rgba(0,0,0,0.2);
+            border: 2px solid #b38b60;
         }
 
         .story-title {
             text-align: center;
-            font-size: clamp(1.3rem, 5vw, 2.2rem);
+            font-size: 1.2rem;
             color: #4a2e1b;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             background: #f3b33d;
-            padding: 8px;
-            border-radius: 40px;
-            border: 2px solid #8b6e4b;
+            padding: 6px;
+            border-radius: 30px;
+            border: 1px solid #8b6e4b;
         }
 
         .story-text {
-            font-size: clamp(1.1rem, 3.5vw, 1.7rem);
-            line-height: 2;
+            font-size: 1rem;
+            line-height: 1.8;
             text-align: center;
             color: #2d3e50;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-weight: 500;
-            padding: 10px;
         }
 
         .story-text p {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
-        /* أنماط الفراغات - متجاوبة */
+        /* أنماط الفراغات - محسنة للمس */
         .blank {
             display: inline-block;
-            min-width: 100px;
-            width: auto;
-            max-width: 200px;
-            padding: 8px 10px;
+            min-width: 70px;
+            max-width: 120px;
+            padding: 6px 8px;
             background: #f0f0f0;
-            border: 3px dashed #f3b33d;
-            border-radius: 30px;
-            font-size: clamp(1rem, 3vw, 1.6rem);
+            border: 2px dashed #f3b33d;
+            border-radius: 25px;
+            font-size: 0.9rem;
             text-align: center;
-            margin: 3px 2px;
-            cursor: pointer;
-            transition: all 0.3s;
+            margin: 2px 1px;
             color: #4a2e1b;
             font-weight: bold;
             vertical-align: middle;
             word-break: break-word;
+            touch-action: none;
+            pointer-events: auto;
+            transition: all 0.2s;
         }
 
         .blank.filled {
             background: #2ecc71;
-            border: 3px solid #27ae60;
+            border: 2px solid #27ae60;
             color: white;
         }
 
@@ -199,20 +202,32 @@
             transform: scale(1.05);
         }
 
-        /* منطقة الكلمات القابلة للسحب */
+        .blank.active-drop {
+            background: #2ecc71;
+            border-color: #27ae60;
+            animation: pulse 0.3s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* منطقة الكلمات - محسنة للمس */
         .options-container {
             background: #8b6e4b;
-            padding: 15px;
-            border-radius: 40px;
-            margin-top: 15px;
-            border: 3px solid #d4a373;
+            padding: 12px 8px;
+            border-radius: 25px;
+            margin-top: 10px;
+            border: 2px solid #d4a373;
         }
 
         .options-title {
             color: white;
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-size: 1rem;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             text-shadow: 1px 1px 0 #5f4e38;
         }
 
@@ -220,44 +235,44 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            padding: 5px;
+            gap: 6px;
+            padding: 3px;
+            min-height: 120px;
         }
 
         .word-chip {
             background: #f3b33d;
             color: #1e3a2f;
-            padding: 12px 18px;
-            border-radius: 40px;
-            font-size: clamp(1rem, 3.5vw, 1.5rem);
+            padding: 10px 12px;
+            border-radius: 30px;
+            font-size: 0.9rem;
             font-weight: bold;
-            cursor: grab;
-            transition: 0.2s;
-            box-shadow: 0 5px 0 #b47d2e;
-            border: 2px solid #ffe39c;
-            user-select: none;
+            box-shadow: 0 4px 0 #b47d2e;
+            border: 1px solid #ffe39c;
             display: inline-block;
-            min-width: 80px;
+            min-width: 65px;
             text-align: center;
-            touch-action: none; /* تحسين للسحب على الأجهزة اللمسية */
+            touch-action: none;
+            transition: all 0.2s;
+            cursor: grab;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            will-change: transform;
         }
 
         .word-chip:active {
             cursor: grabbing;
-            opacity: 0.8;
-            transform: scale(0.98);
+            transform: scale(0.95);
+            opacity: 0.9;
         }
 
         .word-chip.dragging {
-            opacity: 0.5;
+            opacity: 0.7;
             transform: scale(0.9);
-        }
-
-        .word-chip.disabled {
-            opacity: 0.3;
-            pointer-events: none;
-            box-shadow: 0 2px 0 #7e5e2b;
-            transform: translateY(3px);
+            box-shadow: 0 2px 0 #b47d2e;
+            position: relative;
+            z-index: 1000;
         }
 
         .word-chip.used {
@@ -266,68 +281,87 @@
             pointer-events: none;
             opacity: 0.8;
             box-shadow: 0 2px 0 #27ae60;
-            transform: translateY(3px);
+            transform: translateY(2px);
         }
 
-        /* أزرار التحكم المتجاوبة */
+        /* كلمة تطفو أثناء السحب */
+        .drag-clone {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            background: #f3b33d;
+            color: #1e3a2f;
+            padding: 10px 12px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            border: 2px solid #ffe39c;
+            transform: translate(-50%, -50%);
+            opacity: 0.9;
+        }
+
+        /* أزرار التحكم للجوال */
         .control-buttons {
             display: flex;
-            justify-content: center;
-            gap: 12px;
-            padding: 15px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 8px;
+            padding: 12px;
+            background: #f0e0ca;
         }
 
         .btn {
             background-color: #f3b33d;
             color: #1e3a2f;
             border: none;
-            padding: 12px 25px;
-            font-size: clamp(1.1rem, 4vw, 1.6rem);
+            padding: 14px 20px;
+            font-size: 1.1rem;
             font-weight: bold;
-            border-radius: 50px;
+            border-radius: 40px;
             cursor: pointer;
-            box-shadow: 0 6px 0 #b47d2e;
-            transition: 0.1s;
+            box-shadow: 0 5px 0 #b47d2e;
             border: 2px solid #ffe39c;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            flex: 1 1 auto;
-            min-width: 140px;
+            width: 100%;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn:active {
-            transform: translateY(4px);
+            transform: translateY(3px);
             box-shadow: 0 2px 0 #b47d2e;
         }
 
         .btn.check {
             background-color: #2ecc71;
-            box-shadow: 0 6px 0 #27ae60;
+            box-shadow: 0 5px 0 #27ae60;
         }
 
         .btn.reset {
             background-color: #e67e22;
-            box-shadow: 0 6px 0 #b85e0a;
+            box-shadow: 0 5px 0 #b85e0a;
         }
 
         .btn:disabled {
             opacity: 0.5;
             transform: translateY(3px);
-            box-shadow: 0 3px 0 #7e5e2b;
+            box-shadow: 0 2px 0 #7e5e2b;
             pointer-events: none;
         }
 
         /* رسائل متجاوبة */
         .result-message {
             text-align: center;
-            font-size: clamp(1.2rem, 5vw, 2rem);
-            padding: 15px;
-            margin: 10px;
-            border-radius: 40px;
+            font-size: 1.1rem;
+            padding: 12px;
+            margin: 8px;
+            border-radius: 30px;
             font-weight: bold;
+            background: #f39c12;
+            color: white;
         }
 
         .success-message {
@@ -337,68 +371,57 @@
         }
 
         @keyframes glow {
-            0%, 100% { box-shadow: 0 0 15px gold; }
-            50% { box-shadow: 0 0 30px #f1c40f; }
+            0%, 100% { box-shadow: 0 0 10px gold; }
+            50% { box-shadow: 0 0 20px #f1c40f; }
         }
 
         .hint-box {
             background: #3498db;
             color: white;
-            padding: 12px;
-            border-radius: 30px;
-            font-size: clamp(1rem, 3.5vw, 1.3rem);
+            padding: 10px;
+            border-radius: 25px;
+            font-size: 0.95rem;
             text-align: center;
-            margin: 10px 0;
-            border: 2px solid #2980b9;
+            margin: 8px 0;
+            border: 1px solid #2980b9;
         }
 
         .footer {
             background-color: #4a6b5c;
             color: #ffefc0;
             text-align: center;
-            padding: 12px;
-            font-size: clamp(1rem, 3.5vw, 1.4rem);
-            border-top: 4px solid #f3b33d;
+            padding: 10px;
+            font-size: 1rem;
+            border-top: 3px solid #f3b33d;
         }
 
-        /* تحسينات للأجهزة اللمسية */
-        @media (max-width: 600px) {
+        /* تحسينات إضافية للجوال */
+        @media (max-width: 380px) {
             .word-chip {
-                padding: 10px 12px;
-                min-width: 70px;
+                padding: 8px 10px;
+                min-width: 55px;
+                font-size: 0.8rem;
             }
             
             .blank {
-                min-width: 70px;
-                padding: 6px 8px;
+                min-width: 60px;
+                padding: 5px 6px;
+                font-size: 0.8rem;
             }
             
             .story-text {
-                line-height: 2.2;
-            }
-            
-            .control-buttons {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
+                font-size: 0.9rem;
             }
         }
 
-        /* تحسين للشاشات الكبيرة */
-        @media (min-width: 1200px) {
-            .story-section {
-                padding: 30px;
-            }
-            
-            .story-card {
-                padding: 30px;
-            }
-            
-            .words-grid {
-                gap: 15px;
-            }
+        /* إزالة التمرير الزائد */
+        .story-section::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .story-section::-webkit-scrollbar-thumb {
+            background: #8b6e4b;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -406,9 +429,9 @@
     <div class="game-wrapper">
         <div class="header">
             <h1>
-                <span>🖱️</span> لعبة السحب والإفلات <span>🎯</span>
+                <span>🖱️</span> السحب والإفلات <span>📱</span>
             </h1>
-            <div class="sub-header">قصة العمل - الصف الرابع الابتدائي</div>
+            <div class="sub-header">قصة العمل - الصف الرابع</div>
         </div>
 
         <div class="progress-section">
@@ -416,14 +439,14 @@
                 <span>🏆</span> <span id="score">0</span>
             </div>
             <div class="stars-box" id="stars">☆☆☆</div>
-            <div class="level-badge" id="level">المستوى 1</div>
+            <div class="level-badge" id="level">مستوى 1</div>
         </div>
 
-        <div class="story-section">
+        <div class="story-section" id="storySection">
             <div class="story-card">
-                <div class="story-title">📖 اسحب الكلمة وأفلتها في المكان المناسب</div>
+                <div class="story-title">📱 اسحب الكلمة بإصبعك إلى الفراغ</div>
                 
-                <!-- نص القصة مع الفراغات -->
+                <!-- نص القصة -->
                 <div class="story-text" id="storyText">
                     <p>جاء رجل إلى النبي محمد ﷺ وقال: 
                     "يا رسول الله، إني <span class="blank waiting" id="blank1" data-correct="فقير"></span> فساعدني".</p>
@@ -441,15 +464,15 @@
                     <span class="blank waiting" id="blank9" data-correct="الفقر"></span>".</p>
                 </div>
 
-                <!-- منطقة الكلمات القابلة للسحب -->
+                <!-- الكلمات القابلة للسحب -->
                 <div class="options-container">
-                    <div class="options-title">🖱️ اسحب الكلمة إلى الفراغ المناسب</div>
+                    <div class="options-title">👇 اضغط مع الاستمرار واسحب الكلمة</div>
                     <div class="words-grid" id="wordsGrid"></div>
                 </div>
 
                 <!-- رسالة المساعدة -->
                 <div class="hint-box" id="hintMessage">
-                    👇 اضغط مع الاستمرار على الكلمة واسحبها إلى الفراغ
+                    👆 اضغط مطولاً على الكلمة ثم اسحبها
                 </div>
             </div>
         </div>
@@ -469,8 +492,11 @@
         </div>
     </div>
 
+    <!-- عنصر النسخ للكلون (يضاف ديناميكياً) -->
+    <div id="dragClone" class="drag-clone" style="display: none;"></div>
+
     <script>
-        // الكلمات الصحيحة لكل فراغ
+        // الكلمات الصحيحة
         const correctWords = {
             blank1: "فقير",
             blank2: "فأساً",
@@ -483,34 +509,41 @@
             blank9: "الفقر"
         };
 
-        // بنك الكلمات (مع كلمات خاطئة)
+        // بنك الكلمات
         const wordBank = [
-            { text: "فقير", correct: true, id: "word1" },
-            { text: "غني", correct: false, id: "word2" },
-            { text: "فأساً", correct: true, id: "word3" },
-            { text: "سيفاً", correct: false, id: "word4" },
-            { text: "الحطب", correct: true, id: "word5" },
-            { text: "التمر", correct: false, id: "word6" },
-            { text: "الجبل", correct: true, id: "word7" },
-            { text: "البحر", correct: false, id: "word8" },
-            { text: "ثياباً", correct: true, id: "word9" },
-            { text: "ألعاباً", correct: false, id: "word10" },
-            { text: "طعاماً", correct: true, id: "word11" },
-            { text: "حلوى", correct: false, id: "word12" },
-            { text: "خير", correct: true, id: "word13" },
-            { text: "شر", correct: false, id: "word14" },
-            { text: "بلا عملٍ", correct: true, id: "word15" },
-            { text: "بلا مال", correct: false, id: "word16" },
-            { text: "الفقر", correct: true, id: "word17" },
-            { text: "المرض", correct: false, id: "word18" }
+            { text: "فقير", correct: true },
+            { text: "غني", correct: false },
+            { text: "فأساً", correct: true },
+            { text: "سيفاً", correct: false },
+            { text: "الحطب", correct: true },
+            { text: "التمر", correct: false },
+            { text: "الجبل", correct: true },
+            { text: "البحر", correct: false },
+            { text: "ثياباً", correct: true },
+            { text: "ألعاباً", correct: false },
+            { text: "طعاماً", correct: true },
+            { text: "حلوى", correct: false },
+            { text: "خير", correct: true },
+            { text: "شر", correct: false },
+            { text: "بلا عملٍ", correct: true },
+            { text: "بلا مال", correct: false },
+            { text: "الفقر", correct: true },
+            { text: "المرض", correct: false }
         ];
 
         // متغيرات اللعبة
         let score = 0;
         let level = 1;
         let filledBlanks = [false, false, false, false, false, false, false, false, false];
-        let draggedElement = null;
-        let touchDevice = false;
+        
+        // متغيرات السحب للمس
+        let draggedWord = null;
+        let dragClone = null;
+        let isDragging = false;
+        let startX, startY;
+        let currentBlank = null;
+        let touchOffsetX = 0;
+        let touchOffsetY = 0;
 
         // عناصر DOM
         const scoreSpan = document.getElementById('score');
@@ -522,28 +555,11 @@
         const nextLevelBtn = document.getElementById('nextLevelBtn');
         const resultArea = document.getElementById('resultArea');
         const hintMessage = document.getElementById('hintMessage');
+        const storySection = document.getElementById('storySection');
+        const dragCloneElement = document.getElementById('dragClone');
 
-        // تهيئة الفراغات
-        function initBlanks() {
-            for (let i = 1; i <= 9; i++) {
-                const blank = document.getElementById(`blank${i}`);
-                
-                // منع السلوك الافتراضي للسحب والإفلات على الفراغات
-                blank.addEventListener('dragover', handleDragOver);
-                blank.addEventListener('drop', handleDrop);
-                
-                // للأجهزة اللمسية
-                blank.addEventListener('touchmove', handleTouchMove, { passive: false });
-                blank.addEventListener('touchend', handleTouchEnd);
-                
-                // منع القائمة المنبثقة على الأجهزة اللمسية
-                blank.addEventListener('contextmenu', (e) => e.preventDefault());
-            }
-        }
-
-        // تهيئة الكلمات القابلة للسحب
-        function initDraggableWords() {
-            // خلط الكلمات
+        // تهيئة الكلمات
+        function initWords() {
             const shuffled = [...wordBank].sort(() => Math.random() - 0.5);
             wordsGrid.innerHTML = '';
             
@@ -551,164 +567,303 @@
                 const wordChip = document.createElement('span');
                 wordChip.className = 'word-chip';
                 wordChip.textContent = word.text;
-                wordChip.setAttribute('draggable', true);
                 wordChip.dataset.correct = word.correct;
                 wordChip.dataset.word = word.text;
                 wordChip.dataset.index = index;
-                wordChip.id = `word-${index}`;
+                wordChip.id = `word-${Date.now()}-${index}`;
                 
-                // أحداث السحب للماوس
-                wordChip.addEventListener('dragstart', handleDragStart);
-                wordChip.addEventListener('dragend', handleDragEnd);
-                
-                // أحداث اللمس للأجهزة المحمولة
+                // أحداث اللمس
                 wordChip.addEventListener('touchstart', handleTouchStart, { passive: false });
                 wordChip.addEventListener('touchmove', handleTouchMove, { passive: false });
                 wordChip.addEventListener('touchend', handleTouchEnd);
                 wordChip.addEventListener('touchcancel', handleTouchCancel);
                 
-                // منع السحب الأصلي للصور
-                wordChip.addEventListener('drag', (e) => e.preventDefault());
+                // للماوس (اختياري)
+                wordChip.addEventListener('mousedown', handleMouseDown);
                 
                 wordsGrid.appendChild(wordChip);
             });
         }
 
-        // معالج بدء السحب
-        function handleDragStart(e) {
-            draggedElement = this;
-            this.classList.add('dragging');
-            e.dataTransfer.setData('text/plain', this.textContent);
-            e.dataTransfer.effectAllowed = 'move';
-            
-            // منع السحب إذا كانت الكلمة مستخدمة
-            if (this.classList.contains('used')) {
-                e.preventDefault();
-                return false;
+        // تهيئة الفراغات
+        function initBlanks() {
+            for (let i = 1; i <= 9; i++) {
+                const blank = document.getElementById(`blank${i}`);
+                
+                // أحداث اللمس للفراغات
+                blank.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+                blank.addEventListener('touchend', handleBlankTouchEnd);
+                
+                // للماوس
+                blank.addEventListener('mouseup', handleBlankMouseUp);
+                blank.addEventListener('dragenter', (e) => e.preventDefault());
+                blank.addEventListener('dragover', (e) => e.preventDefault());
             }
         }
 
-        // معالج نهاية السحب
-        function handleDragEnd(e) {
-            this.classList.remove('dragging');
-            draggedElement = null;
-        }
-
-        // معالج المرور فوق الفراغ
-        function handleDragOver(e) {
+        // بدء السحب باللمس
+        function handleTouchStart(e) {
             e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-            this.classList.add('drag-over');
-        }
-
-        // معالج الإفلات
-        function handleDrop(e) {
-            e.preventDefault();
-            this.classList.remove('drag-over');
             
-            // الحصول على الكلمة المسحوبة
-            const wordText = e.dataTransfer.getData('text/plain');
-            const blankId = this.id;
-            const blankIndex = parseInt(blankId.replace('blank', '')) - 1;
+            const word = e.currentTarget;
             
-            // التحقق من أن الفراغ غير مملوء
-            if (filledBlanks[blankIndex]) {
-                hintMessage.textContent = '⚠️ هذا الفراغ مملوء بالفعل';
+            // منع السحب إذا كانت الكلمة مستخدمة
+            if (word.classList.contains('used')) {
                 return;
             }
             
-            // البحث عن العنصر المسحوب
-            const draggedWord = draggedElement || document.querySelector(`.word-chip[draggable="true"]:not(.used):not(.disabled)`);
+            const touch = e.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
             
-            if (draggedWord && !draggedWord.classList.contains('used')) {
-                // وضع الكلمة في الفراغ
-                this.textContent = wordText;
-                this.classList.remove('waiting');
-                this.classList.add('filled');
+            // حساب الإزاحة من منتصف الكلمة
+            const rect = word.getBoundingClientRect();
+            touchOffsetX = startX - rect.left - rect.width / 2;
+            touchOffsetY = startY - rect.top - rect.height / 2;
+            
+            draggedWord = word;
+            isDragging = false;
+            
+            // اهتزاز خفيف
+            if (navigator.vibrate) navigator.vibrate(20);
+            
+            // إضافة تأثير بسيط
+            word.style.transform = 'scale(0.95)';
+        }
+
+        // أثناء السحب باللمس
+        function handleTouchMove(e) {
+            e.preventDefault();
+            
+            if (!draggedWord) return;
+            
+            const touch = e.touches[0];
+            const currentX = touch.clientX;
+            const currentY = touch.clientY;
+            
+            // حساب المسافة المحركة لبدء السحب
+            const distance = Math.sqrt(
+                Math.pow(currentX - startX, 2) + 
+                Math.pow(currentY - startY, 2)
+            );
+            
+            if (distance > 10 && !isDragging) {
+                // بدء السحب الفعلي
+                isDragging = true;
+                draggedWord.classList.add('dragging');
                 
-                // تعطيل الكلمة
-                draggedWord.classList.add('used');
-                draggedWord.setAttribute('draggable', false);
+                // إنشاء نسخة طائرة
+                if (!dragClone) {
+                    dragClone = dragCloneElement.cloneNode(true);
+                    dragClone.style.display = 'block';
+                    dragClone.textContent = draggedWord.textContent;
+                    document.body.appendChild(dragClone);
+                }
                 
-                // تحديث حالة الفراغ
-                filledBlanks[blankIndex] = true;
+                // إخفاء الكلمة الأصلية قليلاً
+                draggedWord.style.opacity = '0.3';
+            }
+            
+            if (isDragging && dragClone) {
+                // تحريك النسخة مع إصبع المستخدم
+                dragClone.style.left = (currentX) + 'px';
+                dragClone.style.top = (currentY) + 'px';
                 
-                // إضافة نقاط تشجيعية
-                addScore(5);
+                // التحقق من وجود فراغ تحت الإصبع
+                const elementUnderTouch = document.elementFromPoint(currentX, currentY);
                 
-                hintMessage.textContent = `✅ تم وضع "${wordText}" في الفراغ`;
+                // إزالة تأثير drag-over من جميع الفراغات
+                document.querySelectorAll('.blank').forEach(b => {
+                    b.classList.remove('drag-over');
+                });
                 
-                // التحقق من اكتمال جميع الفراغات
-                if (filledBlanks.every(v => v === true)) {
-                    hintMessage.textContent = '🎉 أحسنت! لقد ملأت جميع الفراغات. اضغط "تحقق من الإجابات"';
+                // إضافة تأثير للفراغ الموجود تحته
+                if (elementUnderTouch && elementUnderTouch.classList.contains('blank')) {
+                    const blank = elementUnderTouch;
+                    const blankIndex = parseInt(blank.id.replace('blank', '')) - 1;
+                    
+                    // التحقق من أن الفراغ غير مملوء
+                    if (!filledBlanks[blankIndex]) {
+                        blank.classList.add('drag-over');
+                        currentBlank = blank;
+                    } else {
+                        currentBlank = null;
+                    }
+                } else {
+                    currentBlank = null;
                 }
             }
         }
 
-        // أحداث اللمس للأجهزة المحمولة
-        let touchTarget = null;
-        let touchStarted = false;
-
-        function handleTouchStart(e) {
-            e.preventDefault();
-            touchTarget = this;
-            touchStarted = true;
-            this.classList.add('dragging');
-            
-            // اهتزاز خفيف للأجهزة التي تدعمه
-            if (navigator.vibrate) navigator.vibrate(20);
-        }
-
-        function handleTouchMove(e) {
-            e.preventDefault();
-            if (!touchStarted || !touchTarget) return;
-            
-            const touch = e.touches[0];
-            const elementAtTouch = document.elementFromPoint(touch.clientX, touch.clientY);
-            
-            // إزالة تأثير drag-over من جميع الفراغات
-            document.querySelectorAll('.blank').forEach(b => {
-                b.classList.remove('drag-over');
-            });
-            
-            // إضافة تأثير drag-over للفراغ الموجود تحته
-            if (elementAtTouch && elementAtTouch.classList.contains('blank')) {
-                elementAtTouch.classList.add('drag-over');
-            }
-        }
-
+        // إنهاء السحب باللمس
         function handleTouchEnd(e) {
             e.preventDefault();
             
-            if (!touchStarted || !touchTarget) {
+            if (!draggedWord) {
                 handleTouchCancel(e);
                 return;
             }
             
-            const touch = e.changedTouches[0];
-            const elementAtTouch = document.elementFromPoint(touch.clientX, touch.clientY);
+            // إعادة الكلمة إلى حالتها الطبيعية
+            draggedWord.style.transform = '';
+            draggedWord.style.opacity = '';
+            draggedWord.classList.remove('dragging');
             
-            // إزالة تأثيرات السحب
-            touchTarget.classList.remove('dragging');
+            // إزالة النسخة الطائرة
+            if (dragClone) {
+                dragClone.remove();
+                dragClone = null;
+            }
+            
+            // إزالة تأثيرات drag-over
             document.querySelectorAll('.blank').forEach(b => {
                 b.classList.remove('drag-over');
             });
             
-            // التحقق من الإفلات على فراغ
-            if (elementAtTouch && elementAtTouch.classList.contains('blank')) {
-                const blank = elementAtTouch;
-                const blankId = blank.id;
+            // إذا كان هناك فراغ مستهدف والكلمة غير مستخدمة
+            if (currentBlank && draggedWord && !draggedWord.classList.contains('used')) {
+                const blankId = currentBlank.id;
                 const blankIndex = parseInt(blankId.replace('blank', '')) - 1;
-                const wordText = touchTarget.textContent;
+                const wordText = draggedWord.textContent;
                 
-                // التحقق من أن الفراغ غير مملوء والكلمة غير مستخدمة
-                if (!filledBlanks[blankIndex] && !touchTarget.classList.contains('used')) {
-                    blank.textContent = wordText;
-                    blank.classList.remove('waiting');
-                    blank.classList.add('filled');
+                // وضع الكلمة في الفراغ
+                currentBlank.textContent = wordText;
+                currentBlank.classList.remove('waiting');
+                currentBlank.classList.add('filled');
+                
+                // تعطيل الكلمة
+                draggedWord.classList.add('used');
+                
+                // تحديث حالة الفراغ
+                filledBlanks[blankIndex] = true;
+                
+                // إضافة نقاط
+                addScore(5);
+                
+                // تأثير نجاح
+                currentBlank.classList.add('active-drop');
+                setTimeout(() => {
+                    currentBlank.classList.remove('active-drop');
+                }, 300);
+                
+                hintMessage.textContent = `✅ تم وضع "${wordText}" في الفراغ`;
+                
+                // التحقق من اكتمال الفراغات
+                if (filledBlanks.every(v => v === true)) {
+                    hintMessage.textContent = '🎉 أحسنت! اكتملت جميع الفراغات';
+                }
+            } else if (currentBlank && draggedWord && draggedWord.classList.contains('used')) {
+                hintMessage.textContent = '❌ هذه الكلمة مستخدمة بالفعل';
+            }
+            
+            // إعادة تعيين متغيرات السحب
+            draggedWord = null;
+            currentBlank = null;
+            isDragging = false;
+        }
+
+        function handleTouchCancel(e) {
+            if (draggedWord) {
+                draggedWord.style.transform = '';
+                draggedWord.style.opacity = '';
+                draggedWord.classList.remove('dragging');
+            }
+            
+            if (dragClone) {
+                dragClone.remove();
+                dragClone = null;
+            }
+            
+            document.querySelectorAll('.blank').forEach(b => {
+                b.classList.remove('drag-over');
+            });
+            
+            draggedWord = null;
+            currentBlank = null;
+            isDragging = false;
+        }
+
+        // معالج لمس الفراغ
+        function handleBlankTouchEnd(e) {
+            // هذا المعالج للتعامل مع الإفلات المباشر على الفراغ
+            e.preventDefault();
+        }
+
+        // أحداث الماوس (للكمبيوتر)
+        function handleMouseDown(e) {
+            const word = e.currentTarget;
+            
+            if (word.classList.contains('used')) return;
+            
+            let mouseDragging = false;
+            let mouseClone = null;
+            
+            const mouseMoveHandler = (e) => {
+                e.preventDefault();
+                
+                if (!mouseDragging) {
+                    mouseDragging = true;
+                    word.classList.add('dragging');
                     
-                    touchTarget.classList.add('used');
-                    touchTarget.setAttribute('draggable', false);
+                    mouseClone = dragCloneElement.cloneNode(true);
+                    mouseClone.style.display = 'block';
+                    mouseClone.textContent = word.textContent;
+                    document.body.appendChild(mouseClone);
+                    
+                    word.style.opacity = '0.3';
+                }
+                
+                if (mouseClone) {
+                    mouseClone.style.left = e.clientX + 'px';
+                    mouseClone.style.top = e.clientY + 'px';
+                    
+                    const elementUnder = document.elementFromPoint(e.clientX, e.clientY);
+                    
+                    document.querySelectorAll('.blank').forEach(b => {
+                        b.classList.remove('drag-over');
+                    });
+                    
+                    if (elementUnder && elementUnder.classList.contains('blank')) {
+                        const blank = elementUnder;
+                        const blankIndex = parseInt(blank.id.replace('blank', '')) - 1;
+                        
+                        if (!filledBlanks[blankIndex]) {
+                            blank.classList.add('drag-over');
+                            currentBlank = blank;
+                        } else {
+                            currentBlank = null;
+                        }
+                    } else {
+                        currentBlank = null;
+                    }
+                }
+            };
+            
+            const mouseUpHandler = (e) => {
+                document.removeEventListener('mousemove', mouseMoveHandler);
+                document.removeEventListener('mouseup', mouseUpHandler);
+                
+                word.style.opacity = '';
+                word.classList.remove('dragging');
+                
+                if (mouseClone) {
+                    mouseClone.remove();
+                }
+                
+                document.querySelectorAll('.blank').forEach(b => {
+                    b.classList.remove('drag-over');
+                });
+                
+                if (currentBlank && !word.classList.contains('used')) {
+                    const blankId = currentBlank.id;
+                    const blankIndex = parseInt(blankId.replace('blank', '')) - 1;
+                    const wordText = word.textContent;
+                    
+                    currentBlank.textContent = wordText;
+                    currentBlank.classList.remove('waiting');
+                    currentBlank.classList.add('filled');
+                    
+                    word.classList.add('used');
                     
                     filledBlanks[blankIndex] = true;
                     addScore(5);
@@ -716,26 +871,33 @@
                     hintMessage.textContent = `✅ تم وضع "${wordText}" في الفراغ`;
                     
                     if (filledBlanks.every(v => v === true)) {
-                        hintMessage.textContent = '🎉 أحسنت! اكتملت الفراغات';
+                        hintMessage.textContent = '🎉 أحسنت! اكتملت جميع الفراغات';
                     }
-                } else {
-                    hintMessage.textContent = '❌ لا يمكن وضع الكلمة هنا';
                 }
-            }
+                
+                currentBlank = null;
+            };
             
-            touchStarted = false;
-            touchTarget = null;
+            document.addEventListener('mousemove', mouseMoveHandler);
+            document.addEventListener('mouseup', mouseUpHandler);
         }
 
-        function handleTouchCancel(e) {
-            if (touchTarget) {
-                touchTarget.classList.remove('dragging');
-                document.querySelectorAll('.blank').forEach(b => {
-                    b.classList.remove('drag-over');
-                });
+        function handleBlankMouseUp(e) {
+            // للماوس فقط
+        }
+
+        // إضافة نقاط
+        function addScore(points) {
+            score += points;
+            scoreSpan.textContent = score;
+            
+            if (score >= 90) {
+                starsDiv.textContent = '★★★';
+            } else if (score >= 60) {
+                starsDiv.textContent = '★★☆';
+            } else if (score >= 30) {
+                starsDiv.textContent = '★☆☆';
             }
-            touchStarted = false;
-            touchTarget = null;
         }
 
         // التحقق من الإجابات
@@ -757,77 +919,37 @@
                     blank.classList.add('incorrect');
                     blank.style.backgroundColor = '#e74c3c';
                     
-                    // إعادة الكلمة إلى بنك الكلمات إذا كانت خاطئة
+                    // إعادة الكلمة إذا كانت خاطئة
                     if (userAnswer) {
                         const wordChip = Array.from(document.querySelectorAll('.word-chip')).find(
                             w => w.textContent === userAnswer && w.classList.contains('used')
                         );
                         if (wordChip) {
                             wordChip.classList.remove('used');
-                            wordChip.setAttribute('draggable', true);
                         }
                     }
                     
-                    // إعادة تعيين الفراغ
                     blank.textContent = '';
                     blank.classList.add('waiting');
                     filledBlanks[i-1] = false;
                 }
             }
             
-            // إضافة النقاط
             const pointsEarned = correctCount * 10;
             addScore(pointsEarned);
             
-            // عرض النتيجة
             if (correctCount === 9) {
-                resultArea.innerHTML = '<div class="result-message success-message">🏆 ماشاء الله! جميع الإجابات صحيحة. لقد حفظت القصة كاملة 🏆</div>';
+                resultArea.innerHTML = '<div class="result-message success-message">🏆 ماشاء الله! جميع الإجابات صحيحة 🏆</div>';
                 nextLevelBtn.disabled = false;
-                hintMessage.textContent = '🎊 تهانينا! يمكنك الانتقال للمستوى التالي';
+                hintMessage.textContent = '🎊 تهانينا! أكملت القصة';
             } else {
-                resultArea.innerHTML = `<div class="result-message" style="background: #f39c12; color: white;">📝 لديك ${correctCount} من 9 إجابات صحيحة. حاول مرة أخرى</div>`;
+                resultArea.innerHTML = `<div class="result-message">📝 لديك ${correctCount} من 9 إجابات صحيحة</div>`;
                 nextLevelBtn.disabled = true;
             }
         }
 
-        // إضافة نقاط
-        function addScore(points) {
-            score += points;
-            scoreSpan.textContent = score;
-            
-            // تحديث النجوم
-            if (score >= 90) {
-                starsDiv.textContent = '★★★';
-            } else if (score >= 60) {
-                starsDiv.textContent = '★★☆';
-            } else if (score >= 30) {
-                starsDiv.textContent = '★☆☆';
-            }
-        }
-
-        // المستوى التالي
-        function nextLevel() {
-            if (level < 3) {
-                level++;
-                levelSpan.textContent = `المستوى ${level}`;
-                
-                resetGame();
-                
-                if (level === 2) {
-                    hintMessage.textContent = '🔰 المستوى الثاني: اختر الكلمات الصحيحة بدقة';
-                } else if (level === 3) {
-                    hintMessage.textContent = '⚡ المستوى الثالث: اعتمد على حفظك للقصة';
-                }
-                
-                nextLevelBtn.disabled = true;
-            } else {
-                resultArea.innerHTML = '<div class="result-message success-message">🎓 أنت بطل الحفظ! أكملت جميع المستويات 🎓</div>';
-            }
-        }
-
-        // إعادة تعيين اللعبة
+        // إعادة التعيين
         function resetGame() {
-            // إعادة تعيين الفراغات
             for (let i = 1; i <= 9; i++) {
                 const blank = document.getElementById(`blank${i}`);
                 blank.textContent = '';
@@ -836,45 +958,60 @@
                 blank.style.backgroundColor = '';
             }
             
-            // إعادة تعيين المتغيرات
             filledBlanks = [false, false, false, false, false, false, false, false, false];
             
-            // إعادة تعيين الكلمات
             document.querySelectorAll('.word-chip').forEach(w => {
-                w.classList.remove('used', 'disabled', 'dragging');
-                w.setAttribute('draggable', true);
+                w.classList.remove('used', 'dragging');
+                w.style.opacity = '';
+                w.style.transform = '';
             });
             
-            // إعادة تعيين النتيجة
             resultArea.innerHTML = '';
-            hintMessage.textContent = '👇 اضغط مع الاستمرار على الكلمة واسحبها إلى الفراغ';
+            hintMessage.innerHTML = '👆 اضغط مطولاً على الكلمة ثم اسحبها';
             
             // إعادة خلط الكلمات
-            initDraggableWords();
+            initWords();
         }
 
-        // التحقق من وجود جهاز لمس
-        function detectTouchDevice() {
-            return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        // المستوى التالي
+        function nextLevel() {
+            if (level < 3) {
+                level++;
+                levelSpan.textContent = `مستوى ${level}`;
+                resetGame();
+                
+                if (level === 2) {
+                    hintMessage.textContent = '🔰 المستوى الثاني: اختر الكلمات الصحيحة';
+                } else if (level === 3) {
+                    hintMessage.textContent = '⚡ المستوى الثالث: اعتمد على حفظك';
+                }
+                
+                nextLevelBtn.disabled = true;
+            } else {
+                resultArea.innerHTML = '<div class="result-message success-message">🎓 أنت بطل الحفظ! 🎓</div>';
+            }
         }
+
+        // منع القائمة المنبثقة عند الضغط المطول
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
 
         // تهيئة اللعبة
         function initGame() {
-            touchDevice = detectTouchDevice();
-            if (touchDevice) {
-                hintMessage.textContent = '👆 اضغط مع الاستمرار على الكلمة واسحبها إلى الفراغ';
-            }
-            
+            initWords();
             initBlanks();
-            initDraggableWords();
             
-            // إضافة مستمعين للأزرار
             checkBtn.addEventListener('click', checkAnswers);
             resetBtn.addEventListener('click', resetGame);
             nextLevelBtn.addEventListener('click', nextLevel);
+            
+            // منع التمرير أثناء السحب
+            storySection.addEventListener('touchmove', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
         }
 
-        // بدء اللعبة
         initGame();
     </script>
 </body>
