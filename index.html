@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="الإمام علي">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0a5f44">
+    
+    <title>🕌 الإمام علي (ع) - ثلاث مستويات</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+    
+    <!-- خط إسلامي واضح وبولد -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', 'Amiri', 'Scheherazade New', 'Traditional Arabic', Tahoma, serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0a5f44 0%, #1e4b3a 50%, #0d3b2a 100%);
+            width: 100vw;
+            height: 100vh;
+            height: -webkit-fill-available;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            overflow: hidden;
+            position: fixed;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path d="M50 0 L100 50 L50 100 L0 50 Z" fill="none" stroke="%23ffd700" stroke-width="1"/><circle cx="50" cy="50" r="20" fill="none" stroke="%23ffd700" stroke-width="1"/><path d="M50 20 L80 50 L50 80 L20 50 Z" fill="none" stroke="%23ffd700" stroke-width="1"/></svg>');
+            background-repeat: repeat;
+            background-size: 80px 80px;
+        }
+
+        /* صورة تصورية للإمام علي (ع) */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.alriyadh.com/media/thumb/43/38/750_0a4dd2e4a9.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            filter: blur(1px) sepia(60%) hue-rotate(120deg);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .game-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            max-width: 420px;
+            max-height: 900px;
+            background: rgba(255, 249, 239, 0.96);
+            backdrop-filter: blur(6px);
+            border-radius: 45px 45px 30px 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 0 4px #c9a34b inset;
+            padding: 12px 10px;
+            border: 3px solid #b58d3a;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* زخارف إسلامية في الزوايا */
+        .game-container::before {
+            content: "﷽";
+            position: absolute;
+            top: -12px;
+            right: 12px;
+            font-size: 1.4rem;
+            color: #c9a34b;
+            opacity: 0.3;
+            font-family: 'Amiri', serif;
+            transform: rotate(8deg);
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff6e5;
+            background: linear-gradient(145deg, #0f6b4a, #0a4f35);
+            padding: 6px 4px;
+            border-radius: 40px 40px 15px 15px;
+            margin-top: -24px;
+            margin-bottom: 2px;
+            font-size: clamp(1.2rem, 5vw, 1.7rem);
+            text-shadow: 2px 2px 0 #063b27, 1px 1px 8px #ffd700;
+            box-shadow: 0 5px 0 #043d28, 0 0 15px #ffd700;
+            flex-shrink: 0;
+            line-height: 1.2;
+            border: 2px solid #e4b13b;
+            font-weight: 900;
+        }
+
+        h1::before, h1::after {
+            content: "☪";
+            font-size: 1.2rem;
+            color: #ffd700;
+            margin: 0 4px;
+        }
+
+        .level-indicator {
+            background: linear-gradient(145deg, #0f4e3a, #07382a);
+            color: #ffefc0;
+            text-align: center;
+            padding: 4px 6px;
+            border-radius: 40px 40px 20px 20px;
+            font-size: clamp(0.9rem, 3.8vw, 1.1rem);
+            font-weight: 800;
+            border: 2px solid #ffd966;
+            box-shadow: 0 4px 0 #7b5e2c;
+            flex-shrink: 0;
+        }
+
+        .level-indicator::before {
+            content: "✨";
+            margin-left: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .level-indicator::after {
+            content: "✨";
+            margin-right: 4px;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            background: #2d1f0c;
+            height: 8px;
+            border-radius: 20px;
+            border: 1px solid #b58d3a;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1b8c5a, #e4b13b);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .score-panel {
+            display: flex;
+            justify-content: space-between;
+            background: #ecddc0;
+            padding: 5px 8px;
+            border-radius: 40px 40px 20px 20px;
+            border: 2px solid #b58d3a;
+            font-weight: 800;
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
+            color: #1d4a33;
+            flex-shrink: 0;
+            box-shadow: 0 4px 0 #826a3d;
+        }
+
+        .score-panel span {
+            background: #1b5e3f;
+            color: #ffefc0;
+            padding: 3px 10px;
+            border-radius: 30px;
+            border: 1px solid #ffbb33;
+            font-weight: 700;
+        }
+
+        .score-panel div:first-child::before {
+            content: "⭐";
+            margin-left: 3px;
+        }
+        
+        .score-panel div:last-child::before {
+            content: "🏆";
+            margin-left: 3px;
+        }
+
+        .level-selector {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+            flex-shrink: 0;
+            margin: 2px 0;
+        }
+        
+        .level-btn {
+            flex: 1;
+            background: linear-gradient(145deg, #1d5e4b, #124433);
+            color: #fff0cc;
+            border: none;
+            border-bottom: 4px solid #826a3d;
+            padding: 6px 0;
+            border-radius: 30px 30px 15px 15px;
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 0 #4f3d1f;
+        }
+        
+        .level-btn.active {
+            transform: translateY(-1px);
+            border-bottom-width: 5px;
+        }
+        
+        .level-btn.easy.active { background: linear-gradient(145deg, #0f8c5a, #0a6b43); }
+        .level-btn.medium.active { background: linear-gradient(145deg, #c97c2e, #b05f1a); }
+        .level-btn.hard.active { background: linear-gradient(145deg, #b5452e, #93341f); }
+
+        .sound-toggle {
+            display: flex;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .sound-toggle button {
+            background: linear-gradient(145deg, #1d5e4b, #0f4333);
+            color: #fff0cc;
+            border: none;
+            border-bottom: 3px solid #826a3d;
+            padding: 3px 12px;
+            border-radius: 40px;
+            font-size: clamp(0.8rem, 3.2vw, 0.95rem);
+            font-weight: 700;
+            cursor: pointer;
+            width: 50%;
+            max-width: 150px;
+        }
+
+        .question-box {
+            background: #fcf3e1;
+            padding: 8px 6px;
+            border-radius: 30px 30px 15px 15px;
+            border: 2px solid #b27d3a;
+            box-shadow: 0 5px 0 #7b5a2c;
+            flex-shrink: 0;
+        }
+
+        .question-text {
+            font-size: clamp(0.95rem, 4vw, 1.1rem);
+            color: #1d3a2a;
+            line-height: 1.4;
+            text-align: center;
+            font-weight: 700;
+            max-height: 80px;
+            overflow-y: auto;
+            padding: 0 5px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 5px;
+            flex: 1;
+            min-height: 0;
+            margin: 3px 0;
+        }
+
+        .option-btn {
+            background: linear-gradient(145deg, #ecd59c, #e0b97e);
+            border: 2px solid #9e7a42;
+            color: #2d3a1f;
+            font-size: clamp(0.9rem, 3.8vw, 1rem);
+            font-weight: 700;
+            padding: 6px 5px;
+            border-radius: 40px 40px 20px 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #7b582a;
+            text-align: center;
+            width: 100%;
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-word;
+        }
+
+        .option-btn::before {
+            content: "🔸";
+            font-size: 0.8rem;
+            margin-left: 4px;
+            opacity: 0.7;
+        }
+
+        .option-btn:active:not(:disabled) {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #7b582a;
+        }
+
+        .option-btn.selected-correct {
+            background: linear-gradient(145deg, #2a9d6e, #1e7a55);
+            border-color: #f9d56e;
+            color: white;
+            box-shadow: 0 3px 0 #0f5c3d;
+            font-weight: 800;
+        }
+
+        .option-btn.selected-correct::before {
+            content: "✅";
+        }
+
+        .option-btn.selected-wrong {
+            background: linear-gradient(145deg, #c55a4a, #9e4133);
+            border-color: #f9b56e;
+            color: white;
+            box-shadow: 0 3px 0 #732e22;
+            font-weight: 800;
+        }
+
+        .option-btn.selected-wrong::before {
+            content: "❌";
+        }
+
+        .next-btn {
+            width: 100%;
+            background: linear-gradient(145deg, #1f8a6b, #166d52);
+            border: none;
+            border-bottom: 4px solid #0d4d3a;
+            color: white;
+            font-size: clamp(1rem, 4.5vw, 1.3rem);
+            padding: 5px 8px;
+            border-radius: 50px 50px 25px 25px;
+            font-weight: 900;
+            cursor: pointer;
+            flex-shrink: 0;
+            box-shadow: 0 5px 0 #073d2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .next-btn::before {
+            content: "➡️";
+            font-size: 1rem;
+        }
+        
+        .next-btn::after {
+            content: "⬅️";
+            font-size: 1rem;
+        }
+
+        .next-btn:active {
+            border-bottom-width: 1px;
+            transform: translateY(3px);
+        }
+
+        .message-area {
+            text-align: center;
+            min-height: 30px;
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
+            color: #ffefc0;
+            text-shadow: 1px 1px 0 #6b4f2a;
+            font-weight: 800;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 75, 55, 0.7);
+            border-radius: 40px;
+            padding: 3px 8px;
+            border: 1px solid #e4b13b;
+            margin: 2px 0;
+        }
+
+        .restart-btn {
+            background: linear-gradient(145deg, #d9a755, #b8822b);
+            border: none;
+            border-bottom: 3px solid #8b601f;
+            color: #1a2c1a;
+            font-size: clamp(0.9rem, 4vw, 1.1rem);
+            padding: 4px 8px;
+            border-radius: 40px 40px 20px 20px;
+            font-weight: 900;
+            cursor: pointer;
+            width: 100%;
+            flex-shrink: 0;
+            box-shadow: 0 4px 0 #6b471b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .restart-btn::before {
+            content: "🔄";
+        }
+        
+        .restart-btn::after {
+            content: "✨";
+        }
+
+        footer {
+            text-align: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            padding: 4px 6px;
+            border-radius: 40px;
+            background: linear-gradient(135deg, #0f372a, #1b4f3b);
+            border: 2px solid #f9d56e;
+            box-shadow: 0 3px 0 #836b31;
+        }
+        
+        .designer-names {
+            display: block;
+            font-size: clamp(0.7rem, 3vw, 0.9rem);
+            font-weight: 900;
+            background: linear-gradient(145deg, #fbe9b1, #f5d78c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* تخصيص شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ecd59c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1b5e3f;
+            border-radius: 10px;
+        }
+
+        @media (max-height: 700px) {
+            .game-container { padding: 8px; }
+            .option-btn { min-height: 38px; padding: 4px; }
+            h1 { margin-top: -22px; padding: 4px; }
+            .question-box { padding: 5px; }
+            .question-text { max-height: 70px; }
+        }
+        
+        @media (max-height: 600px) {
+            .game-container { padding: 6px; }
+            .option-btn { min-height: 34px; font-size: 0.85rem; }
+            h1 { font-size: 1.2rem; margin-top: -20px; }
+            .score-panel { padding: 3px 6px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🕋 الإمام علي عليه السلام 🕋</h1>
+
+        <div class="level-indicator" id="levelIndicator">المستوى السهل 1/40</div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="score-panel">
+            <div>النقاط <span id="currentScore">0</span></div>
+            <div>القياس <span id="highScore">0</span></div>
+        </div>
+
+        <div class="level-selector">
+            <button class="level-btn easy active" id="easyBtn">🔰 سهل</button>
+            <button class="level-btn medium" id="mediumBtn">⭐ متوسط</button>
+            <button class="level-btn hard" id="hardBtn">🏹 متقدم</button>
+        </div>
+
+        <div class="sound-toggle">
+            <button id="toggleSoundBtn">🔊 الصوت</button>
+        </div>
+
+        <div class="question-box">
+            <div class="question-text" id="questionText"></div>
+        </div>
+
+        <div class="options-grid" id="optionsContainer"></div>
+
+        <button class="next-btn" id="nextBtn" disabled>التالي</button>
+
+        <div class="message-area" id="messageArea"></div>
+
+        <button class="restart-btn" id="restartBtn">إعادة</button>
+        
+        <footer>
+            <div class="designer-names">المهندس علي عبد السادة و الأستاذة مروة رفعت</div>
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            const questions = {
+                easy: [
+                    { text: "🕋 أين وُلد الإمام علي عليه السلام؟", options: ["في المدينة", "داخل الكعبة", "في الطائف"], correct: 1 },
+                    { text: "🕋 في أي مدينة وُلد الإمام علي؟", options: ["مكة", "المدينة", "الكوفة"], correct: 0 },
+                    { text: "🕋 في أي شهر وُلد الإمام علي؟", options: ["شعبان", "رمضان", "رجب"], correct: 2 },
+                    { text: "🕋 في أي يوم من رجب ولد؟", options: ["١٣ رجب", "١٠ رجب", "١٥ رجب"], correct: 0 },
+                    { text: "🕋 في أي يوم من الأسبوع ولد؟", options: ["الاثنين", "الجمعة", "الأحد"], correct: 1 },
+                    { text: "🕋 من هي أم الإمام علي؟", options: ["خديجة", "فاطمة بنت أسد", "آمنة"], correct: 1 },
+                    { text: "🕋 من هو والد الإمام علي؟", options: ["أبو طالب", "العباس", "حمزة"], correct: 0 },
+                    { text: "🕋 كم يوماً بقيت فاطمة بنت أسد في الكعبة؟", options: ["يومان", "ثلاثة أيام", "أربعة أيام"], correct: 2 },
+                    { text: "🕋 من روى قصة الولادة في الكعبة؟", options: ["أنس", "يزيد بن قعنب", "سلمان"], correct: 1 },
+                    { text: "🕋 من حمل الإمام علي بعد ولادته؟", options: ["النبي ﷺ", "أبو طالب", "العباس"], correct: 0 },
+                    { text: "🕋 من سمى الإمام علياً؟", options: ["النبي", "أبو طالب", "العباس"], correct: 1 },
+                    { text: "🕋 ماذا فعل أبو طالب احتفالاً؟", options: ["وليمة", "بنى بيتاً", "سافر"], correct: 0 },
+                    { text: "🕋 كنية للإمام علي؟", options: ["أبو القاسم", "أبو تراب", "أبو عبد الله"], correct: 1 },
+                    { text: "🕋 من أخذ علياً ليعيش معه؟", options: ["النبي ﷺ", "العباس", "حمزة"], correct: 0 },
+                    { text: "🕋 كم كان عمره عندما أخذه النبي؟", options: ["٤ سنوات", "٦ سنوات", "١٠ سنوات"], correct: 1 },
+                    { text: "🕋 من أخذ جعفراً ليعيش معه؟", options: ["العباس", "النبي", "أبو طالب"], correct: 0 },
+                    { text: "🕋 أول من آمن برسول الله؟", options: ["أبو بكر", "علي", "عمر"], correct: 1 },
+                    { text: "🕋 في أي يوم نزلت النبوة؟", options: ["الاثنين", "الثلاثاء", "الجمعة"], correct: 0 },
+                    { text: "🕋 في أي يوم صلى علي بعد النبي؟", options: ["الاثنين", "الثلاثاء", "الأربعاء"], correct: 1 },
+                    { text: "🕋 زوجة النبي من أوائل المسلمين؟", options: ["خديجة", "عائشة", "حفصة"], correct: 0 },
+                    { text: "🕋 كم شخصاً في أول بيت مسلم؟", options: ["اثنان", "ثلاثة", "أربعة"], correct: 1 },
+                    { text: "🕋 من أفراد أول بيت مسلم؟", options: ["النبي وخديجة وعلي", "النبي وأبو بكر", "النبي والعباس"], correct: 0 },
+                    { text: "🕋 هل سجد علي لصنم؟", options: ["نعم", "لا", "مرة"], correct: 1 },
+                    { text: "🕋 كيف وصف علي نفسه؟", options: ["ولدت على الفطرة", "أقوى المسلمين", "أول المجاهدين"], correct: 0 },
+                    { text: "🕋 من قال إن علياً أول من أسلم؟", options: ["سلمان", "معاوية", "خالد"], correct: 0 },
+                    { text: "🕋 من روى نزول النبوة الاثنين؟", options: ["ابن عباس", "أنس", "جابر"], correct: 1 },
+                    { text: "🕋 أين كان النبي يعتكف؟", options: ["حراء", "ثور", "أحد"], correct: 0 },
+                    { text: "🕋 من كان يرى الوحي مع النبي؟", options: ["أبو بكر", "علي", "العباس"], correct: 1 },
+                    { text: "🕋 ماذا كان يشم علي عند الوحي؟", options: ["المسك", "ريح النبوة", "العود"], correct: 1 },
+                    { text: "🕋 ماذا كان يسمع علي عند الوحي؟", options: ["رنة الشيطان", "الريح", "المطر"], correct: 0 },
+                    { text: "🕋 ماذا قال النبي لعلي؟", options: ["أنت رسول", "أنت وزيري", "أنت ملك"], correct: 1 },
+                    { text: "🕋 أين كانا يصليان في البداية؟", options: ["شعاب مكة", "المسجد", "المدينة"], correct: 0 },
+                    { text: "🕋 كيف كانا يصليان؟", options: ["جهراً", "سراً", "أمام الناس"], correct: 1 },
+                    { text: "🕋 من رآهما يصليان وسألهما؟", options: ["العباس", "أبو طالب", "حمزة"], correct: 1 },
+                    { text: "🕋 ماذا قال علي لأبيه؟", options: ["آمنت برسول الله", "سأفكر", "لا أعرف"], correct: 0 },
+                    { text: "🕋 ماذا قال أبو طالب لعلي؟", options: ["اتركه", "الزمه", "لا تصدقه"], correct: 1 },
+                    { text: "🕋 من روى قصة الصلاة في منى؟", options: ["عفيف الكندي", "سلمان", "أنس"], correct: 0 },
+                    { text: "🕋 المرأة التي صلت خلف النبي؟", options: ["فاطمة", "خديجة", "عائشة"], correct: 1 },
+                    { text: "🕋 الغلام الذي صلى مع النبي؟", options: ["الحسن", "علي", "جعفر"], correct: 1 },
+                    { text: "🕋 لقب مشهور للإمام علي؟", options: ["أمير المؤمنين", "سيد قريش", "أمير العرب"], correct: 0 }
+                ],
+                medium: [
+                    { text: "🌟 سبب أخذ النبي والعباس لأبناء أبي طالب؟", options: ["السفر", "الأزمة الاقتصادية", "المرض"], correct: 1 },
+                    { text: "🌟 من أيسر بني هاشم؟", options: ["العباس", "حمزة", "أبو طالب"], correct: 2 },
+                    { text: "🌟 من طلب البقاء مع أبيه؟", options: ["علي", "عقيل", "جعفر"], correct: 0 },
+                    { text: "🌟 ماذا قال النبي بعد اختيار علي؟", options: ["اختاره الله لي", "علي أخي", "وزيري"], correct: 2 },
+                    { text: "🌟 كيف نشأ علي في بيت النبي؟", options: ["في ظل أخلاقه", "بمعزل", "مع الصحابة"], correct: 0 },
+                    { text: "🌟 كيف وصف علي متابعته للنبي؟", options: ["كالفصيل لأمه", "كالجندي", "كالتلميذ"], correct: 1 },
+                    { text: "🌟 ماذا كان النبي يفعل بالطعام لعلي؟", options: ["يطبخه", "يمضغه", "يقطعه"], correct: 1 },
+                    { text: "🌟 ماذا قال علي عن صدقه؟", options: ["لم يجد لي كذبة", "كنت صادقاً", "قليل الكلام"], correct: 0 },
+                    { text: "🌟 ماذا كان النبي يرفع لعلي؟", options: ["علماً من أخلاقه", "سيفاً", "كتاباً"], correct: 2 },
+                    { text: "🌟 ماذا كان يشم علي عند الوحي؟", options: ["ريح النبوة", "الطيب", "المسك"], correct: 0 },
+                    { text: "🌟 ماذا قال النبي عند رنة الشيطان؟", options: ["آيس من عبادته", "صوت الوحي", "صوت الملائكة"], correct: 1 },
+                    { text: "🌟 كيف وصف النبي مكانة علي؟", options: ["كهارون من موسى", "كالأخ", "كالصديق"], correct: 0 },
+                    { text: "🌟 ماذا قال النبي لعلي عن النبوة؟", options: ["لست بنبي", "ستكون نبياً", "شريك"], correct: 1 },
+                    { text: "🌟 كيف وصف النبي دور علي؟", options: ["وزير", "قائد", "إمام"], correct: 0 },
+                    { text: "🌟 كيف وصف القرآن أخلاق النبي؟", options: ["عظيمة", "حسنة", "كريمة"], correct: 2 },
+                    { text: "🌟 على نهج من سار النبي؟", options: ["إبراهيم", "موسى", "عيسى"], correct: 1 },
+                    { text: "🌟 نواة الأسرة المؤمنة الأولى؟", options: ["النبي وخديجة وعلي", "وأبو بكر", "والعباس"], correct: 0 },
+                    { text: "🌟 هدف هذه الأسرة؟", options: ["مقاومة الجاهلية", "التجارة", "السفر"], correct: 2 },
+                    { text: "🌟 كيف وصف انتشار الإسلام؟", options: ["موج هادر", "نور صغير", "نار"], correct: 0 },
+                    { text: "🌟 من روى نزول النبوة الاثنين؟", options: ["أنس", "ابن عباس", "جابر"], correct: 2 },
+                    { text: "🌟 من قال علي أول الأمة إسلاماً؟", options: ["سلمان", "أبو ذر", "المقداد"], correct: 0 },
+                    { text: "🌟 من نقل حديث فضائل علي الثلاث؟", options: ["عمر", "أبو بكر", "العباس"], correct: 1 },
+                    { text: "🌟 كم خصلة ذكرها النبي؟", options: ["ثلاث", "أربع", "خمس"], correct: 2 },
+                    { text: "🌟 أول خصلة؟", options: ["أول المسلمين", "أشجعهم", "أعلمهم"], correct: 0 },
+                    { text: "🌟 الخصلة الثانية؟", options: ["أول المؤمنين", "أقربهم", "أكثرهم"], correct: 1 },
+                    { text: "🌟 الخصلة الثالثة؟", options: ["كهارون من موسى", "أخو النبي", "وصي"], correct: 2 },
+                    { text: "🌟 كيف وصف المحدثون علياً؟", options: ["كرم الله وجهه", "أمير العرب", "سيد الصحابة"], correct: 1 },
+                    { text: "🌟 لماذا قالوا كرم الله وجهه؟", options: ["لم يسجد لصنم", "شجاعته", "علمه"], correct: 0 },
+                    { text: "🌟 من قال إن علياً ولد مسلماً؟", options: ["العقاد", "الطبري", "ابن خلدون"], correct: 2 },
+                    { text: "🌟 سبب ذلك عند العقاد؟", options: ["فتح عينيه على الإسلام", "هاجر مبكراً", "قاتل"], correct: 0 }
+                ],
+                hard: [
+                    { text: "🏹 كم سنة قبل الهجرة ولد؟", options: ["٢٣", "٣٠", "١٧"], correct: 1 },
+                    { text: "🏹 ولادته بالنسبة لعام الفيل؟", options: ["بعده بثلاثين سنة", "بعده بعشر", "قبله بعشر"], correct: 2 },
+                    { text: "🏹 الفضيلة في ولادته؟", options: ["في الكعبة", "في المسجد", "في المدينة"], correct: 0 },
+                    { text: "🏹 ما حدث لجدار الكعبة؟", options: ["انشق", "اهتز", "فتح الباب"], correct: 0 },
+                    { text: "🏹 عندما حاولوا فتح الباب؟", options: ["لم ينفتح", "انفتح", "كسر"], correct: 2 },
+                    { text: "🏹 بمن توسلت فاطمة بنت أسد؟", options: ["إبراهيم", "موسى", "عيسى"], correct: 1 },
+                    { text: "🏹 عمر الحمل عند دخول الكعبة؟", options: ["٩ أشهر", "٧", "٨"], correct: 2 },
+                    { text: "🏹 كم يوماً بقيت في الكعبة؟", options: ["٤ أيام", "يومان", "٣"], correct: 1 },
+                    { text: "🏹 من بشر أبا طالب؟", options: ["البشير", "العباس", "جعفر"], correct: 0 },
+                    { text: "🏹 ماذا فعل النبي عند رؤيته؟", options: ["ضمه لصدره", "حمله للكعبة", "أعطاه لأبيه"], correct: 2 },
+                    { text: "🏹 أين أخذه النبي؟", options: ["لبيت أبي طالب", "للكعبة", "للسوق"], correct: 0 },
+                    { text: "🏹 كيف وصف الألقاب؟", options: ["كثيرة يصعب حصرها", "قليلة", "نادرة"], correct: 1 },
+                    { text: "🏹 من كان يمنحه الألقاب؟", options: ["النبي", "الصحابة", "أبو طالب"], correct: 2 },
+                    { text: "🏹 لقب قيادة المؤمنين؟", options: ["أمير المؤمنين", "سيد العرب", "أمير البررة"], correct: 0 },
+                    { text: "🏹 لقب شجاعته؟", options: ["سيف الله", "باب المدينة", "الصديق"], correct: 1 },
+                    { text: "🏹 لقب علمه؟", options: ["باب العلم", "الفاروق", "الشاهد"], correct: 0 },
+                    { text: "🏹 لقب إزالة الهموم؟", options: ["كشاف الكرب", "الهادي", "الوالي"], correct: 2 },
+                    { text: "🏹 لقب تقسيم الجنة والنار؟", options: ["قسيم الجنة والنار", "صاحب اللواء", "أمير البررة"], correct: 0 },
+                    { text: "🏹 لقب زواجه من فاطمة؟", options: ["زوج البتول", "زوج الطاهرة", "زوج الزهراء"], correct: 1 },
+                    { text: "🏹 لقب الوصاية؟", options: ["الوصي", "القائد", "الإمام"], correct: 2 },
+                    { text: "🏹 لقب الهداية؟", options: ["الهادي", "العابد", "الزاهد"], correct: 0 },
+                    { text: "🏹 لقب الشهادة؟", options: ["الشاهد", "المجاهد", "الإمام"], correct: 1 },
+                    { text: "🏹 لقب طريق الحق؟", options: ["الصراط المستقيم", "النور", "الطريق"], correct: 0 },
+                    { text: "🏹 لقب الوفاء بوعد النبي؟", options: ["منجز وعده", "الصادق", "الأمين"], correct: 2 },
+                    { text: "🏹 لقب قضاء دين النبي؟", options: ["قاضي الدين", "قاضي المسلمين", "قاضي المدينة"], correct: 1 },
+                    { text: "🏹 لقب دعوته للناس؟", options: ["الداعي", "الواعظ", "الخطيب"], correct: 2 },
+                    { text: "🏹 لقب مكانته مع النبي؟", options: ["نفس الرسول", "صاحبه", "خادمه"], correct: 0 },
+                    { text: "🏹 لقب أخوته للنبي؟", options: ["أخو الرسول", "تابع", "صديق"], correct: 1 },
+                    { text: "🏹 لقب قيادة البررة؟", options: ["أمير البررة", "سيد المؤمنين", "قائد"], correct: 2 },
+                    { text: "🏹 لقب قتاله للظالمين؟", options: ["قاتل الفجرة", "العادل", "الحكيم"], correct: 0 }
+                ]
+            };
+
+            // متغيرات اللعبة
+            let currentLevel = 'easy';
+            let currentQuestions = questions.easy;
+            let currentQuestionIndex = 0;
+            let score = 0;
+            let highScore = localStorage.getItem('aliGameHighScore') ? parseInt(localStorage.getItem('aliGameHighScore')) : 0;
+            let answered = false;
+            let soundEnabled = true;
+
+            // عناصر DOM
+            const levelIndicator = document.getElementById('levelIndicator');
+            const progressFill = document.getElementById('progressFill');
+            const currentScoreSpan = document.getElementById('currentScore');
+            const highScoreSpan = document.getElementById('highScore');
+            const questionText = document.getElementById('questionText');
+            const optionsContainer = document.getElementById('optionsContainer');
+            const nextBtn = document.getElementById('nextBtn');
+            const messageArea = document.getElementById('messageArea');
+            const restartBtn = document.getElementById('restartBtn');
+            const toggleSoundBtn = document.getElementById('toggleSoundBtn');
+            const easyBtn = document.getElementById('easyBtn');
+            const mediumBtn = document.getElementById('mediumBtn');
+            const hardBtn = document.getElementById('hardBtn');
+
+            highScoreSpan.textContent = highScore;
+
+            function playSound(type) {
+                if (!soundEnabled) return;
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    if (type === 'correct') {
+                        const now = audioContext.currentTime;
+                        const osc = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.value = 523.25;
+                        gainNode.gain.setValueAtTime(0, now);
+                        gainNode.gain.linearRampToValueAtTime(0.15, now + 0.05);
+                        gainNode.gain.linearRampToValueAtTime(0, now + 0.2);
+                        osc.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        osc.start(now);
+                        osc.stop(now + 0.2);
+                    } else {
+                        const now = audioContext.currentTime;
+                        const osc = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+                        osc.type = 'sawtooth';
+                        osc.frequency.value = 220;
+                        gainNode.gain.setValueAtTime(0.1, now);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                        osc.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        osc.start(now);
+                        osc.stop(now + 0.1);
+                    }
+                    if (audioContext.state === 'suspended') audioContext.resume();
+                } catch (e) {}
+            }
+
+            function updateScoreDisplay() {
+                currentScoreSpan.textContent = score;
+                if (score > highScore) {
+                    highScore = score;
+                    localStorage.setItem('aliGameHighScore', highScore);
+                    highScoreSpan.textContent = highScore;
+                }
+            }
+
+            function updateProgress() {
+                const total = currentQuestions.length;
+                const current = currentQuestionIndex + 1;
+                const percent = (current / total) * 100;
+                progressFill.style.width = `${percent}%`;
+                
+                let levelName = { easy: 'السهل', medium: 'المتوسط', hard: 'المتقدم' }[currentLevel];
+                levelIndicator.textContent = `المستوى ${levelName} ${current}/${total}`;
+            }
+
+            function renderQuestion() {
+                answered = false;
+                const q = currentQuestions[currentQuestionIndex];
+                questionText.textContent = q.text;
+                optionsContainer.innerHTML = '';
+
+                q.options.forEach((opt, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.textContent = opt;
+                    btn.onclick = () => {
+                        if (answered) return;
+                        const isCorrect = (index === q.correct);
+                        document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+                        
+                        document.querySelectorAll('.option-btn').forEach((b, idx) => {
+                            if (idx === q.correct) b.classList.add('selected-correct');
+                            else if (idx === index && !isCorrect) b.classList.add('selected-wrong');
+                        });
+
+                        if (isCorrect) {
+                            score++;
+                            updateScoreDisplay();
+                            playSound('correct');
+                            confetti({ particleCount: 30, spread: 40, origin: { y: 0.7 }, colors: ['#0a5f44', '#ffd700'] });
+                            messageArea.innerHTML = '✅ إجابة صحيحة ✓';
+                        } else {
+                            playSound('wrong');
+                            messageArea.innerHTML = `❌ ${q.options[q.correct]}`;
+                        }
+
+                        answered = true;
+                        nextBtn.disabled = false;
+                    };
+                    optionsContainer.appendChild(btn);
+                });
+                nextBtn.disabled = true;
+                updateProgress();
+            }
+
+            function goToNextQuestion() {
+                if (currentQuestionIndex < currentQuestions.length - 1) {
+                    currentQuestionIndex++;
+                    renderQuestion();
+                } else {
+                    questionText.textContent = "🎉 أكملت المستوى بنجاح 🎉";
+                    optionsContainer.innerHTML = '';
+                    nextBtn.disabled = true;
+                    messageArea.innerHTML = `⭐ ${score}/${currentQuestions.length}`;
+                    confetti({ particleCount: 150, spread: 100, colors: ['#0a5f44', '#ffd700'] });
+                }
+            }
+
+            function changeLevel(level) {
+                currentLevel = level;
+                currentQuestions = questions[level];
+                currentQuestionIndex = 0;
+                score = 0;
+                answered = false;
+                
+                [easyBtn, mediumBtn, hardBtn].forEach(btn => btn.classList.remove('active'));
+                document.getElementById(level + 'Btn').classList.add('active');
+                
+                updateScoreDisplay();
+                renderQuestion();
+                messageArea.innerHTML = '';
+            }
+
+            function restartGame() {
+                currentQuestionIndex = 0;
+                score = 0;
+                answered = false;
+                updateScoreDisplay();
+                renderQuestion();
+                messageArea.innerHTML = '';
+            }
+
+            function toggleSound() {
+                soundEnabled = !soundEnabled;
+                toggleSoundBtn.textContent = soundEnabled ? '🔊 الصوت' : '🔇 الصوت';
+                if (soundEnabled) playSound('correct');
+            }
+
+            document.body.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
+            easyBtn.onclick = () => changeLevel('easy');
+            mediumBtn.onclick = () => changeLevel('medium');
+            hardBtn.onclick = () => changeLevel('hard');
+            nextBtn.onclick = goToNextQuestion;
+            restartBtn.onclick = restartGame;
+            toggleSoundBtn.onclick = toggleSound;
+
+            renderQuestion();
+        })();
+    </script>
+</body>
+</html>
