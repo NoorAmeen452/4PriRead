@@ -2,15 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>لعبة السحب والإفلات - قصة العمل</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>لعبة إكمال الفراغات - قصة العمل</title>
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
             user-select: none;
         }
 
@@ -18,392 +17,406 @@
             font-family: 'Amiri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(145deg, #1a4d3e, #0e3a2d);
             min-height: 100vh;
-            min-height: -webkit-fill-available;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 5px;
+            padding: 10px;
             margin: 0;
-            touch-action: pan-y pinch-zoom;
         }
 
-        .game-wrapper {
+        .game-box {
             max-width: 480px;
             width: 100%;
             background: #fff7e6;
-            border-radius: 25px 25px 15px 15px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.5), 0 0 0 3px #c9a87c;
+            border-radius: 30px 30px 15px 15px;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.5), 0 0 0 4px #c9a87c;
             overflow: hidden;
         }
 
-        /* الهيدر */
-        .header {
+        /* رأس اللعبة */
+        .game-header {
             background: linear-gradient(145deg, #0a5f44, #1e7b5c);
             color: white;
-            padding: 10px 5px;
+            padding: 15px 10px;
             text-align: center;
-            border-bottom: 3px solid #f3b33d;
+            border-bottom: 4px solid #f3b33d;
         }
 
-        .header h1 {
-            font-size: 1.4rem;
-            margin-bottom: 3px;
+        .game-header h1 {
+            font-size: 1.7rem;
+            margin-bottom: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 8px;
         }
 
-        .header h1 span {
-            font-size: 1.6rem;
+        .game-header h1 span {
+            font-size: 2rem;
         }
 
-        .sub-header {
+        .game-subtitle {
             background-color: #f3b33d;
             color: #1e3a2f;
-            font-size: 0.9rem;
-            padding: 4px 12px;
-            border-radius: 30px;
+            font-size: 1rem;
+            padding: 6px 18px;
+            border-radius: 40px;
             display: inline-block;
             font-weight: bold;
-            box-shadow: 0 2px 0 #b47d2e;
+            box-shadow: 0 3px 0 #b47d2e;
         }
 
         /* شريط التقدم */
-        .progress-section {
+        .progress-bar {
             background: #2d5a44;
-            padding: 8px 10px;
+            padding: 12px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 5px;
             color: white;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
-        .score-box {
+        .score {
             background-color: #ffeac2;
             color: #2d3e50;
-            padding: 5px 12px;
-            border-radius: 25px;
-            font-size: 1rem;
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 1.2rem;
             font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 5px;
-            box-shadow: 0 2px 0 #b38b5f;
+            gap: 8px;
+            box-shadow: 0 3px 0 #b38b5f;
         }
 
-        .stars-box {
-            font-size: 1.3rem;
-            letter-spacing: 2px;
+        .stars {
+            font-size: 1.5rem;
             color: gold;
             text-shadow: 1px 1px 0 #b47d2e;
         }
 
-        .level-badge {
+        .level {
             background-color: #f3b33d;
-            padding: 5px 12px;
-            border-radius: 25px;
-            font-size: 0.9rem;
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 1rem;
             font-weight: bold;
             color: #1e3a2f;
         }
 
         /* منطقة القصة */
-        .story-section {
+        .story-area {
             background: #f0e0ca;
-            padding: 10px;
+            padding: 15px;
             max-height: 55vh;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
         .story-card {
             background: white;
-            border-radius: 20px;
-            padding: 12px 8px;
-            box-shadow: 0 4px 0 #8b6e4b;
+            border-radius: 25px;
+            padding: 15px 12px;
+            box-shadow: 0 5px 0 #8b6e4b;
             border: 2px solid #b38b60;
         }
 
         .story-title {
             text-align: center;
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #4a2e1b;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             background: #f3b33d;
-            padding: 5px;
-            border-radius: 25px;
+            padding: 6px;
+            border-radius: 30px;
             border: 1px solid #8b6e4b;
         }
 
         .story-text {
-            font-size: 0.95rem;
-            line-height: 1.8;
+            font-size: 1rem;
+            line-height: 2;
             text-align: center;
             color: #2d3e50;
             margin-bottom: 15px;
         }
 
         .story-text p {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
-        /* الفراغات */
-        .blank {
+        /* تصميم الفراغات */
+        .blank-space {
             display: inline-block;
-            min-width: 65px;
-            max-width: 110px;
-            padding: 5px 6px;
+            min-width: 70px;
+            max-width: 120px;
+            padding: 5px 8px;
             background: #fff3cd;
             border: 2px dashed #f3b33d;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            border-radius: 25px;
+            font-size: 0.95rem;
             text-align: center;
-            margin: 2px 1px;
+            margin: 2px 3px;
             color: #856404;
             font-weight: bold;
-            vertical-align: middle;
-            word-break: break-word;
             transition: all 0.2s;
         }
 
-        .blank.filled {
+        .blank-space.filled {
             background: #2ecc71;
             border: 2px solid #27ae60;
             color: white;
         }
 
-        .blank.incorrect {
-            background: #e74c3c;
-            border-color: #c0392b;
-            color: white;
-        }
-
-        .blank.selected {
+        .blank-space.highlight {
             background: #3498db;
             border-color: #2980b9;
             color: white;
             transform: scale(1.05);
         }
 
-        /* الكلمات */
-        .options-container {
+        .blank-space.correct-answer {
+            background: #2ecc71;
+            border-color: #27ae60;
+            color: white;
+        }
+
+        .blank-space.wrong-answer {
+            background: #e74c3c;
+            border-color: #c0392b;
+            color: white;
+        }
+
+        /* منطقة الكلمات */
+        .words-area {
             background: #8b6e4b;
-            padding: 10px 5px;
-            border-radius: 20px;
-            margin-top: 8px;
+            padding: 15px 10px;
+            border-radius: 25px;
+            margin-top: 12px;
             border: 2px solid #d4a373;
         }
 
-        .options-title {
+        .words-title {
             color: white;
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
-        .words-grid {
+        .words-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 6px;
-            padding: 3px;
-            min-height: 110px;
+            gap: 8px;
+            min-height: 120px;
         }
 
-        .word-chip {
+        .word-item {
             background: #f3b33d;
             color: #1e3a2f;
-            padding: 8px 10px;
-            border-radius: 25px;
-            font-size: 0.85rem;
+            padding: 8px 12px;
+            border-radius: 30px;
+            font-size: 0.95rem;
             font-weight: bold;
             box-shadow: 0 3px 0 #b47d2e;
             border: 1px solid #ffe39c;
             display: inline-block;
-            min-width: 60px;
+            min-width: 65px;
             text-align: center;
             transition: all 0.2s;
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        .word-chip:active {
+        .word-item:active {
             transform: scale(0.95);
             background: #e9a82e;
         }
 
-        .word-chip.used {
-            background: #2ecc71;
+        .word-item.selected {
+            background: #3498db;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 0 #2980b9;
+        }
+
+        .word-item.used {
+            background: #95a5a6;
             color: white;
             pointer-events: none;
-            opacity: 0.7;
-            box-shadow: 0 1px 0 #27ae60;
+            opacity: 0.5;
+            box-shadow: 0 1px 0 #7f8c8d;
             transform: translateY(2px);
         }
 
+        /* رسالة التوجيه */
+        .guide-message {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            text-align: center;
+            margin: 12px 0 5px;
+            border: 1px solid #2980b9;
+        }
+
         /* الأزرار */
-        .control-buttons {
+        .action-buttons {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            padding: 10px;
+            gap: 8px;
+            padding: 15px;
             background: #f0e0ca;
         }
 
-        .btn {
+        .action-btn {
             background-color: #f3b33d;
             color: #1e3a2f;
             border: none;
-            padding: 12px 15px;
-            font-size: 1rem;
+            padding: 14px 20px;
+            font-size: 1.1rem;
             font-weight: bold;
-            border-radius: 30px;
+            border-radius: 40px;
             cursor: pointer;
             box-shadow: 0 4px 0 #b47d2e;
             border: 2px solid #ffe39c;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 8px;
             width: 100%;
-            touch-action: manipulation;
         }
 
-        .btn:active {
+        .action-btn:active {
             transform: translateY(2px);
             box-shadow: 0 2px 0 #b47d2e;
         }
 
-        .btn.check {
+        .action-btn.check {
             background-color: #2ecc71;
             box-shadow: 0 4px 0 #27ae60;
         }
 
-        .btn.reset {
+        .action-btn.reset {
             background-color: #e67e22;
             box-shadow: 0 4px 0 #b85e0a;
         }
 
-        .btn:disabled {
+        .action-btn:disabled {
             opacity: 0.5;
             transform: translateY(2px);
             box-shadow: 0 2px 0 #7e5e2b;
+            pointer-events: none;
         }
 
-        /* الرسائل */
-        .hint-box {
-            background: #3498db;
-            color: white;
-            padding: 8px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+        /* رسالة النتيجة */
+        .result-box {
             text-align: center;
-            margin: 8px 0 0;
-        }
-
-        .result-message {
-            text-align: center;
-            font-size: 1rem;
-            padding: 10px;
-            margin: 5px;
-            border-radius: 25px;
+            font-size: 1.1rem;
+            padding: 12px;
+            margin: 5px 15px;
+            border-radius: 30px;
             font-weight: bold;
             background: #f39c12;
             color: white;
         }
 
-        .success-message {
+        .result-box.success {
             background: gold;
             color: #1e3a2f;
+            animation: glow 1s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px gold; }
+            50% { box-shadow: 0 0 20px #f1c40f; }
         }
 
         .footer {
             background-color: #4a6b5c;
             color: #ffefc0;
             text-align: center;
-            padding: 8px;
-            font-size: 0.9rem;
+            padding: 10px;
+            font-size: 1rem;
             border-top: 3px solid #f3b33d;
         }
 
-        /* تحسينات للأجهزة الصغيرة */
+        /* تحسين للشاشات الصغيرة */
         @media (max-width: 360px) {
-            .word-chip {
-                padding: 6px 8px;
+            .word-item {
+                padding: 6px 10px;
                 min-width: 55px;
-                font-size: 0.8rem;
+                font-size: 0.85rem;
             }
             
-            .blank {
-                min-width: 55px;
-                padding: 4px 5px;
-                font-size: 0.8rem;
+            .blank-space {
+                min-width: 60px;
+                padding: 4px 6px;
+                font-size: 0.85rem;
             }
             
             .story-text {
-                font-size: 0.85rem;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="game-wrapper">
-        <div class="header">
+    <div class="game-box">
+        <div class="game-header">
             <h1>
-                <span>👆</span> اضغط على الكلمة ثم على الفراغ <span>👇</span>
+                <span>✏️</span> أكمل الفراغات <span>📝</span>
             </h1>
-            <div class="sub-header">قصة العمل - الصف الرابع</div>
+            <div class="game-subtitle">قصة العمل - الصف الرابع الابتدائي</div>
         </div>
 
-        <div class="progress-section">
-            <div class="score-box">
-                <span>🏆</span> <span id="score">0</span>
+        <div class="progress-bar">
+            <div class="score">
+                <span>⭐</span> <span id="scoreValue">0</span>
             </div>
-            <div class="stars-box" id="stars">☆☆☆</div>
-            <div class="level-badge" id="level">مستوى 1</div>
+            <div class="stars" id="starsDisplay">☆☆☆</div>
+            <div class="level" id="levelDisplay">مستوى 1</div>
         </div>
 
-        <div class="story-section">
+        <div class="story-area">
             <div class="story-card">
-                <div class="story-title">📖 اضغط على الكلمة ثم على الفراغ المناسب</div>
+                <div class="story-title">📖 اضغط على الكلمة ثم على الفراغ</div>
                 
                 <div class="story-text">
                     <p>جاء رجل إلى النبي محمد ﷺ وقال: 
-                    "يا رسول الله، إني <span class="blank waiting" id="blank1" data-correct="فقير"></span> فساعدني".</p>
+                    "يا رسول الله، إني <span class="blank-space waiting" id="blank1"></span> فساعدني".</p>
                     
-                    <p>فأعطاه النبي ﷺ <span class="blank waiting" id="blank2" data-correct="فأساً"></span> وقال له: 
-                    "اذهب واجمع <span class="blank waiting" id="blank3" data-correct="الحطب"></span> وبعه".</p>
+                    <p>فأعطاه النبي ﷺ <span class="blank-space waiting" id="blank2"></span> وقال له: 
+                    "اذهب واجمع <span class="blank-space waiting" id="blank3"></span> وبعه".</p>
                     
-                    <p>ذهب الرجل إلى <span class="blank waiting" id="blank4" data-correct="الجبل"></span> وبدأ يجمع الخشب.</p>
+                    <p>ذهب الرجل إلى <span class="blank-space waiting" id="blank4"></span> وبدأ يجمع الخشب.</p>
                     
-                    <p>باع الرجل الخشب واشترى لأولاده <span class="blank waiting" id="blank5" data-correct="ثياباً"></span> و<span class="blank waiting" id="blank6" data-correct="طعاماً"></span>.</p>
+                    <p>باع الرجل الخشب واشترى لأولاده <span class="blank-space waiting" id="blank5"></span> و<span class="blank-space waiting" id="blank6"></span>.</p>
                     
                     <p>قال النبي ﷺ للرجل: 
-                    "هذا <span class="blank waiting" id="blank7" data-correct="خير"></span> لك من أن تقعد 
-                    <span class="blank waiting" id="blank8" data-correct="بلا عملٍ"></span> وتشكو من 
-                    <span class="blank waiting" id="blank9" data-correct="الفقر"></span>".</p>
+                    "هذا <span class="blank-space waiting" id="blank7"></span> لك من أن تقعد 
+                    <span class="blank-space waiting" id="blank8"></span> وتشكو من 
+                    <span class="blank-space waiting" id="blank9"></span>".</p>
                 </div>
 
-                <div class="options-container">
-                    <div class="options-title">👇 اضغط على الكلمة أولاً</div>
-                    <div class="words-grid" id="wordsGrid"></div>
+                <div class="words-area">
+                    <div class="words-title">👇 اضغط على الكلمة (ستتغير للأزرق)</div>
+                    <div class="words-container" id="wordsContainer"></div>
                 </div>
 
-                <div class="hint-box" id="hintMessage">
-                    👆 اضغط على كلمة، ثم اضغط على الفراغ المناسب
+                <div class="guide-message" id="guideMessage">
+                    اضغط على كلمة، ثم اضغط على الفراغ المناسب
                 </div>
             </div>
         </div>
 
-        <div class="control-buttons">
-            <button class="btn check" id="checkBtn">✅ تحقق من الإجابات</button>
-            <button class="btn reset" id="resetBtn">🔄 إعادة المحاولة</button>
-            <button class="btn" id="nextLevelBtn" disabled>⭐ المستوى التالي</button>
+        <div class="action-buttons">
+            <button class="action-btn check" id="checkBtn">✅ تحقق من إجاباتي</button>
+            <button class="action-btn reset" id="resetBtn">🔄 ابدأ من جديد</button>
+            <button class="action-btn" id="nextLevelBtn" disabled>⭐ المستوى التالي</button>
         </div>
 
-        <div id="resultArea"></div>
+        <div id="resultDisplay"></div>
 
         <div class="footer">
             ﴿ وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَى ﴾
@@ -411,8 +424,8 @@
     </div>
 
     <script>
-        // الكلمات الصحيحة
-        const correctWords = {
+        // الكلمات الصحيحة لكل فراغ
+        const correctAnswers = {
             blank1: "فقير",
             blank2: "فأساً",
             blank3: "الحطب",
@@ -424,276 +437,242 @@
             blank9: "الفقر"
         };
 
-        // بنك الكلمات
-        const wordBank = [
-            { text: "فقير", correct: true },
-            { text: "غني", correct: false },
-            { text: "فأساً", correct: true },
-            { text: "سيفاً", correct: false },
-            { text: "الحطب", correct: true },
-            { text: "التمر", correct: false },
-            { text: "الجبل", correct: true },
-            { text: "البحر", correct: false },
-            { text: "ثياباً", correct: true },
-            { text: "ألعاباً", correct: false },
-            { text: "طعاماً", correct: true },
-            { text: "حلوى", correct: false },
-            { text: "خير", correct: true },
-            { text: "شر", correct: false },
-            { text: "بلا عملٍ", correct: true },
-            { text: "بلا مال", correct: false },
-            { text: "الفقر", correct: true },
-            { text: "المرض", correct: false }
+        // جميع الكلمات المتاحة (مع كلمات خاطئة)
+        const allWords = [
+            "فقير", "غني", "فأساً", "سيفاً", "الحطب", "التمر", 
+            "الجبل", "البحر", "ثياباً", "ألعاباً", "طعاماً", "حلوى",
+            "خير", "شر", "بلا عملٍ", "بلا مال", "الفقر", "المرض"
         ];
 
         // متغيرات اللعبة
-        let score = 0;
-        let level = 1;
+        let currentScore = 0;
+        let currentLevel = 1;
         let filledBlanks = [false, false, false, false, false, false, false, false, false];
-        let selectedWord = null; // الكلمة المختارة حالياً
+        let selectedWordElement = null;
+        let selectedWordText = "";
 
-        // عناصر DOM
-        const scoreSpan = document.getElementById('score');
-        const starsDiv = document.getElementById('stars');
-        const levelSpan = document.getElementById('level');
-        const wordsGrid = document.getElementById('wordsGrid');
+        // عناصر الصفحة
+        const scoreSpan = document.getElementById('scoreValue');
+        const starsSpan = document.getElementById('starsDisplay');
+        const levelSpan = document.getElementById('levelDisplay');
+        const wordsContainer = document.getElementById('wordsContainer');
+        const guideMsg = document.getElementById('guideMessage');
         const checkBtn = document.getElementById('checkBtn');
         const resetBtn = document.getElementById('resetBtn');
-        const nextLevelBtn = document.getElementById('nextLevelBtn');
-        const resultArea = document.getElementById('resultArea');
-        const hintMessage = document.getElementById('hintMessage');
+        const nextBtn = document.getElementById('nextLevelBtn');
+        const resultDiv = document.getElementById('resultDisplay');
 
-        // تهيئة الكلمات
-        function initWords() {
-            const shuffled = [...wordBank].sort(() => Math.random() - 0.5);
-            wordsGrid.innerHTML = '';
+        // عرض الكلمات في الشاشة
+        function displayWords() {
+            // خلط الكلمات عشوائياً
+            const shuffled = [...allWords].sort(() => Math.random() - 0.5);
+            wordsContainer.innerHTML = '';
             
-            shuffled.forEach((word, index) => {
-                const wordChip = document.createElement('span');
-                wordChip.className = 'word-chip';
-                wordChip.textContent = word.text;
-                wordChip.dataset.correct = word.correct;
-                wordChip.dataset.word = word.text;
-                wordChip.dataset.index = index;
-                
-                // إضافة حدث النقر للكلمة
-                wordChip.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    selectWord(wordChip);
-                });
-                
-                wordsGrid.appendChild(wordChip);
+            shuffled.forEach(word => {
+                const wordSpan = document.createElement('span');
+                wordSpan.className = 'word-item';
+                wordSpan.textContent = word;
+                wordSpan.onclick = () => selectWord(wordSpan);
+                wordsContainer.appendChild(wordSpan);
             });
         }
 
-        // تهيئة الفراغات
-        function initBlanks() {
-            for (let i = 1; i <= 9; i++) {
-                const blank = document.getElementById(`blank${i}`);
-                
-                blank.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    selectBlank(blank);
-                });
-            }
-        }
-
         // اختيار كلمة
-        function selectWord(wordElement) {
+        function selectWord(element) {
             // إذا كانت الكلمة مستخدمة مسبقاً
-            if (wordElement.classList.contains('used')) {
-                hintMessage.textContent = '❌ هذه الكلمة مستخدمة بالفعل';
+            if (element.classList.contains('used')) {
+                guideMsg.textContent = '❌ هذه الكلمة مستخدمة بالفعل';
                 return;
             }
             
             // إزالة التحديد من الكلمة السابقة
-            if (selectedWord) {
-                selectedWord.style.background = '#f3b33d';
-                selectedWord.style.transform = '';
+            if (selectedWordElement) {
+                selectedWordElement.classList.remove('selected');
             }
             
             // تحديد الكلمة الجديدة
-            selectedWord = wordElement;
-            wordElement.style.background = '#3498db';
-            wordElement.style.color = 'white';
-            wordElement.style.transform = 'scale(1.05)';
+            selectedWordElement = element;
+            selectedWordText = element.textContent;
+            element.classList.add('selected');
             
-            hintMessage.textContent = `👈 الآن اضغط على الفراغ المناسب لكلمة "${wordElement.textContent}"`;
+            guideMsg.textContent = `👈 الآن اضغط على الفراغ المناسب لكلمة "${selectedWordText}"`;
         }
 
-        // اختيار فراغ
-        function selectBlank(blankElement) {
+        // تهيئة الفراغات
+        function setupBlanks() {
+            for (let i = 1; i <= 9; i++) {
+                const blank = document.getElementById(`blank${i}`);
+                blank.onclick = () => fillBlank(blank, i);
+            }
+        }
+
+        // ملء الفراغ
+        function fillBlank(blankElement, blankNumber) {
             // إذا لم يتم اختيار كلمة
-            if (!selectedWord) {
-                hintMessage.textContent = '👆 اختر كلمة أولاً';
+            if (!selectedWordElement) {
+                guideMsg.textContent = '👆 اختر كلمة أولاً';
                 return;
             }
             
-            const blankId = blankElement.id;
-            const blankIndex = parseInt(blankId.replace('blank', '')) - 1;
-            
-            // إذا كان الفراغ مملوء
-            if (filledBlanks[blankIndex]) {
-                hintMessage.textContent = '⚠️ هذا الفراغ مملوء بالفعل';
+            // إذا كان الفراغ مملوءاً
+            if (filledBlanks[blankNumber - 1]) {
+                guideMsg.textContent = '⚠️ هذا الفراغ مملوء بالفعل';
                 return;
             }
             
             // وضع الكلمة في الفراغ
-            const wordText = selectedWord.textContent;
-            blankElement.textContent = wordText;
+            blankElement.textContent = selectedWordText;
             blankElement.classList.remove('waiting');
             blankElement.classList.add('filled');
             
             // تعطيل الكلمة المستخدمة
-            selectedWord.classList.add('used');
-            selectedWord.style.background = '#2ecc71';
-            selectedWord.style.color = 'white';
-            selectedWord.style.transform = '';
+            selectedWordElement.classList.remove('selected');
+            selectedWordElement.classList.add('used');
             
             // تحديث حالة الفراغ
-            filledBlanks[blankIndex] = true;
+            filledBlanks[blankNumber - 1] = true;
             
-            // إضافة نقاط
-            addScore(5);
+            // إضافة نقاط تشجيعية
+            currentScore += 5;
+            updateScore();
             
-            hintMessage.textContent = `✅ تم وضع "${wordText}" في الفراغ`;
+            guideMsg.textContent = `✅ تم وضع "${selectedWordText}" في الفراغ`;
             
             // إعادة تعيين الكلمة المختارة
-            selectedWord = null;
+            selectedWordElement = null;
             
-            // التحقق من اكتمال الفراغات
+            // التحقق من اكتمال جميع الفراغات
             if (filledBlanks.every(v => v === true)) {
-                hintMessage.textContent = '🎉 أحسنت! اكتملت جميع الفراغات. اضغط "تحقق من الإجابات"';
+                guideMsg.textContent = '🎉 أحسنت! لقد ملأت جميع الفراغات. اضغط على "تحقق من إجاباتي"';
             }
         }
 
-        // إضافة نقاط
-        function addScore(points) {
-            score += points;
-            scoreSpan.textContent = score;
+        // تحديث النقاط والنجوم
+        function updateScore() {
+            scoreSpan.textContent = currentScore;
             
-            if (score >= 90) {
-                starsDiv.textContent = '★★★';
-            } else if (score >= 60) {
-                starsDiv.textContent = '★★☆';
-            } else if (score >= 30) {
-                starsDiv.textContent = '★☆☆';
+            if (currentScore >= 90) {
+                starsSpan.textContent = '★★★';
+            } else if (currentScore >= 60) {
+                starsSpan.textContent = '★★☆';
+            } else if (currentScore >= 30) {
+                starsSpan.textContent = '★☆☆';
             }
         }
 
         // التحقق من الإجابات
-        function checkAnswers() {
+        function checkAllAnswers() {
             let correctCount = 0;
             
             for (let i = 1; i <= 9; i++) {
                 const blank = document.getElementById(`blank${i}`);
                 const userAnswer = blank.textContent;
-                const correctAnswer = correctWords[`blank${i}`];
+                const correctAnswer = correctAnswers[`blank${i}`];
                 
                 if (userAnswer === correctAnswer) {
-                    blank.classList.remove('filled', 'waiting', 'incorrect');
-                    blank.classList.add('filled');
-                    blank.style.background = '#2ecc71';
+                    blank.classList.remove('filled', 'wrong-answer');
+                    blank.classList.add('correct-answer');
                     correctCount++;
                 } else {
-                    blank.classList.remove('filled', 'waiting');
-                    blank.classList.add('incorrect');
-                    blank.style.background = '#e74c3c';
+                    blank.classList.remove('filled', 'correct-answer');
+                    blank.classList.add('wrong-answer');
                     
-                    // إعادة الكلمة إذا كانت خاطئة
+                    // إعادة الكلمة الخاطئة إلى منطقة الكلمات
                     if (userAnswer) {
-                        const wordChip = Array.from(document.querySelectorAll('.word-chip')).find(
-                            w => w.textContent === userAnswer && w.classList.contains('used')
-                        );
-                        if (wordChip) {
-                            wordChip.classList.remove('used');
-                            wordChip.style.background = '#f3b33d';
-                            wordChip.style.color = '#1e3a2f';
+                        const wordElements = document.querySelectorAll('.word-item');
+                        for (let word of wordElements) {
+                            if (word.textContent === userAnswer && word.classList.contains('used')) {
+                                word.classList.remove('used');
+                                break;
+                            }
                         }
                     }
                     
+                    // إفراغ الفراغ
                     blank.textContent = '';
                     blank.classList.add('waiting');
-                    blank.style.background = '#fff3cd';
                     filledBlanks[i-1] = false;
                 }
             }
             
-            const pointsEarned = correctCount * 10;
-            addScore(pointsEarned);
+            // إضافة نقاط إضافية
+            currentScore += correctCount * 10;
+            updateScore();
             
+            // عرض النتيجة
             if (correctCount === 9) {
-                resultArea.innerHTML = '<div class="result-message success-message">🏆 ماشاء الله! جميع الإجابات صحيحة 🏆</div>';
-                nextLevelBtn.disabled = false;
-                hintMessage.textContent = '🎊 تهانينا! أكملت القصة بنجاح';
+                resultDiv.innerHTML = '<div class="result-box success">🏆 ماشاء الله! جميع الإجابات صحيحة. حفظت القصة كاملة 🏆</div>';
+                nextBtn.disabled = false;
+                guideMsg.textContent = '🎊 تهانينا! يمكنك الانتقال للمستوى التالي';
             } else {
-                resultArea.innerHTML = `<div class="result-message">📝 لديك ${correctCount} من 9 إجابات صحيحة</div>`;
-                nextLevelBtn.disabled = true;
+                resultDiv.innerHTML = `<div class="result-box">📝 لديك ${correctCount} من 9 إجابات صحيحة. حاول مرة أخرى</div>`;
+                nextBtn.disabled = true;
             }
         }
 
-        // إعادة التعيين
+        // إعادة تعيين اللعبة
         function resetGame() {
+            // إفراغ جميع الفراغات
             for (let i = 1; i <= 9; i++) {
                 const blank = document.getElementById(`blank${i}`);
                 blank.textContent = '';
-                blank.classList.remove('filled', 'incorrect');
+                blank.classList.remove('filled', 'correct-answer', 'wrong-answer');
                 blank.classList.add('waiting');
-                blank.style.background = '#fff3cd';
             }
             
+            // إعادة ضبط المتغيرات
             filledBlanks = [false, false, false, false, false, false, false, false, false];
             
-            document.querySelectorAll('.word-chip').forEach(w => {
-                w.classList.remove('used');
-                w.style.background = '#f3b33d';
-                w.style.color = '#1e3a2f';
-                w.style.transform = '';
+            // إعادة تفعيل جميع الكلمات
+            document.querySelectorAll('.word-item').forEach(word => {
+                word.classList.remove('used', 'selected');
             });
             
-            if (selectedWord) {
-                selectedWord.style.background = '#f3b33d';
-                selectedWord.style.transform = '';
-                selectedWord = null;
+            // إعادة تعيين الكلمة المختارة
+            if (selectedWordElement) {
+                selectedWordElement.classList.remove('selected');
+                selectedWordElement = null;
             }
             
-            resultArea.innerHTML = '';
-            hintMessage.innerHTML = '👆 اضغط على كلمة، ثم اضغط على الفراغ المناسب';
+            // إخفاء النتيجة
+            resultDiv.innerHTML = '';
+            guideMsg.innerHTML = 'اضغط على كلمة، ثم اضغط على الفراغ المناسب';
         }
 
         // المستوى التالي
-        function nextLevel() {
-            if (level < 3) {
-                level++;
-                levelSpan.textContent = `مستوى ${level}`;
+        function goToNextLevel() {
+            if (currentLevel < 3) {
+                currentLevel++;
+                levelSpan.textContent = `مستوى ${currentLevel}`;
+                
                 resetGame();
                 
-                if (level === 2) {
-                    hintMessage.textContent = '🔰 المستوى الثاني: حاول اختيار الكلمات الصحيحة';
-                } else if (level === 3) {
-                    hintMessage.textContent = '⚡ المستوى الثالث: اعتمد على حفظك للقصة';
+                if (currentLevel === 2) {
+                    guideMsg.textContent = '🔰 المستوى الثاني: اختر الكلمات الصحيحة بدقة';
+                } else if (currentLevel === 3) {
+                    guideMsg.textContent = '⚡ المستوى الثالث: اعتمد على حفظك للقصة';
                 }
                 
-                nextLevelBtn.disabled = true;
+                nextBtn.disabled = true;
             } else {
-                resultArea.innerHTML = '<div class="result-message success-message">🎓 أنت بطل الحفظ! أكملت جميع المستويات 🎓</div>';
+                resultDiv.innerHTML = '<div class="result-box success">🎓 أنت بطل الحفظ! أكملت جميع المستويات 🎓</div>';
             }
         }
 
-        // منع القائمة المنبثقة
+        // منع القائمة المنبثقة عند الضغط المطول
         document.addEventListener('contextmenu', (e) => e.preventDefault());
 
-        // تهيئة اللعبة
-        function initGame() {
-            initWords();
-            initBlanks();
+        // بدء اللعبة
+        function startGame() {
+            displayWords();
+            setupBlanks();
             
-            checkBtn.addEventListener('click', checkAnswers);
-            resetBtn.addEventListener('click', resetGame);
-            nextLevelBtn.addEventListener('click', nextLevel);
+            checkBtn.onclick = checkAllAnswers;
+            resetBtn.onclick = resetGame;
+            nextBtn.onclick = goToNextLevel;
         }
 
-        initGame();
+        startGame();
     </script>
 </body>
 </html>
