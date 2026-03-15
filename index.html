@@ -162,10 +162,23 @@
             transition: all 0.2s;
         }
 
+        .blank-space.waiting {
+            background: #fff3cd;
+            border: 2px dashed #f3b33d;
+            color: #856404;
+        }
+        .blank-space.waiting::after {
+            content: "_____";
+            opacity: 0.7;
+        }
+
         .blank-space.filled {
             background: #2ecc71;
             border: 2px solid #27ae60;
             color: white;
+        }
+        .blank-space.filled::after {
+            content: "";
         }
 
         .blank-space.highlight {
@@ -180,11 +193,17 @@
             border-color: #27ae60;
             color: white;
         }
+        .blank-space.correct-answer::after {
+            content: "";
+        }
 
         .blank-space.wrong-answer {
             background: #e74c3c;
             border-color: #c0392b;
             color: white;
+        }
+        .blank-space.wrong-answer::after {
+            content: "";
         }
 
         /* منطقة الكلمات */
@@ -225,6 +244,7 @@
             text-align: center;
             transition: all 0.2s;
             cursor: pointer;
+            touch-action: manipulation;
         }
 
         .word-item:active {
@@ -285,6 +305,7 @@
             justify-content: center;
             gap: 8px;
             width: 100%;
+            touch-action: manipulation;
         }
 
         .action-btn:active {
@@ -340,6 +361,29 @@
             font-size: 1rem;
             border-top: 3px solid #f3b33d;
         }
+        
+        /* --- تذييل إضافي لعداد الزوار --- */
+        .visitor-footer {
+            background-color: #2d5a44;
+            color: #ffefc0;
+            text-align: center;
+            padding: 8px 10px;
+            font-size: 0.9rem;
+            border-top: 1px solid #f3b33d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .visitor-footer img {
+            display: inline-block;
+            vertical-align: middle;
+            border-radius: 15px;
+            background: white;
+            padding: 2px 5px;
+        }
+        /* ---------------------------- */
 
         /* تحسين للشاشات الصغيرة */
         @media (max-width: 360px) {
@@ -421,6 +465,18 @@
         <div class="footer">
             ﴿ وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَى ﴾
         </div>
+        
+        <!-- =================================================== -->
+        <!-- منطقة عداد الزوار - أضيفت خصيصًا لموقع noorameen452 -->
+        <!-- =================================================== -->
+        <div class="visitor-footer">
+            <span>👥 عدد زوار هذه الصفحة:</span>
+            <img src="https://visitor-badge.laobi.icu/badge?page_id=noorameen452.4PriRead" 
+                 alt="عداد الزوار"
+                 title="عدد الزوار الفريدين لهذه الصفحة">
+        </div>
+        <!-- =================================================== -->
+        
     </div>
 
     <script>
@@ -520,7 +576,7 @@
                 return;
             }
             
-            // وضع الكلمة في الفراغ
+            // وضع الكلمة في الفراغ (نزيل المحتوى الافتراضي ___)
             blankElement.textContent = selectedWordText;
             blankElement.classList.remove('waiting');
             blankElement.classList.add('filled');
@@ -578,7 +634,7 @@
                     blank.classList.add('wrong-answer');
                     
                     // إعادة الكلمة الخاطئة إلى منطقة الكلمات
-                    if (userAnswer) {
+                    if (userAnswer && userAnswer !== "_____" && userAnswer.trim() !== "") {
                         const wordElements = document.querySelectorAll('.word-item');
                         for (let word of wordElements) {
                             if (word.textContent === userAnswer && word.classList.contains('used')) {
@@ -588,7 +644,7 @@
                         }
                     }
                     
-                    // إفراغ الفراغ
+                    // إفراغ الفراغ وإعادته لحالة الانتظار
                     blank.textContent = '';
                     blank.classList.add('waiting');
                     filledBlanks[i-1] = false;
@@ -634,7 +690,7 @@
                 selectedWordElement = null;
             }
             
-            // إخفاء النتيجة
+            // إعادة ضبط النتيجة والرسائل
             resultDiv.innerHTML = '';
             guideMsg.innerHTML = 'اضغط على كلمة، ثم اضغط على الفراغ المناسب';
         }
@@ -672,7 +728,8 @@
             nextBtn.onclick = goToNextLevel;
         }
 
-        startGame();
+        // تأكد من تحميل الصفحة بالكامل قبل بدء اللعبة
+        window.onload = startGame;
     </script>
 </body>
 </html>
