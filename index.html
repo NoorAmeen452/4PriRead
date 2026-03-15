@@ -25,7 +25,7 @@
         }
 
         .game-box {
-            max-width: 480px;
+            max-width: 500px;
             width: 100%;
             background: #fff7e6;
             border-radius: 30px 30px 15px 15px;
@@ -33,7 +33,6 @@
             overflow: hidden;
         }
 
-        /* رأس اللعبة */
         .game-header {
             background: linear-gradient(145deg, #0a5f44, #1e7b5c);
             color: white;
@@ -66,7 +65,28 @@
             box-shadow: 0 3px 0 #b47d2e;
         }
 
-        /* شريط التقدم */
+        .visitor-counter {
+            background: #2d5a44;
+            padding: 8px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #f3b33d;
+        }
+
+        .visitor-box {
+            background-color: #ffeac2;
+            color: #2d3e50;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
         .progress-bar {
             background: #2d5a44;
             padding: 12px 15px;
@@ -89,15 +109,25 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 3px 0 #b38b5f;
+            transition: all 0.3s ease;
         }
 
-        .stars {
-            font-size: 1.5rem;
-            color: gold;
-            text-shadow: 1px 1px 0 #b47d2e;
+        .score.hidden {
+            opacity: 0.5;
+            background-color: #cccccc;
+            box-shadow: 0 3px 0 #999999;
         }
 
-        .level {
+        .score.hidden .star {
+            filter: grayscale(100%);
+        }
+
+        .score-value-placeholder {
+            font-style: italic;
+            color: #666;
+        }
+
+        .correct-count {
             background-color: #f3b33d;
             padding: 6px 15px;
             border-radius: 30px;
@@ -106,7 +136,6 @@
             color: #1e3a2f;
         }
 
-        /* منطقة القصة */
         .story-area {
             background: #f0e0ca;
             padding: 15px;
@@ -117,7 +146,7 @@
         .story-card {
             background: white;
             border-radius: 25px;
-            padding: 15px 12px;
+            padding: 15px;
             box-shadow: 0 5px 0 #8b6e4b;
             border: 2px solid #b38b60;
         }
@@ -133,43 +162,32 @@
             border: 1px solid #8b6e4b;
         }
 
-        .story-text {
-            font-size: 1rem;
-            line-height: 2;
-            text-align: center;
+        .full-story {
+            font-size: 1.1rem;
+            line-height: 2.2;
+            text-align: justify;
             color: #2d3e50;
-            margin-bottom: 15px;
+            padding: 10px;
+            background: #fef9e6;
+            border-radius: 20px;
+            border: 1px solid #d4a373;
         }
 
-        .story-text p {
-            margin-bottom: 12px;
-        }
-
-        /* تصميم الفراغات */
         .blank-space {
             display: inline-block;
-            min-width: 70px;
-            max-width: 120px;
+            min-width: 75px;
+            max-width: 130px;
             padding: 5px 8px;
             background: #fff3cd;
             border: 2px dashed #f3b33d;
             border-radius: 25px;
-            font-size: 0.95rem;
+            font-size: 1rem;
             text-align: center;
             margin: 2px 3px;
             color: #856404;
             font-weight: bold;
             transition: all 0.2s;
-        }
-
-        .blank-space.waiting {
-            background: #fff3cd;
-            border: 2px dashed #f3b33d;
-            color: #856404;
-        }
-        .blank-space.waiting::after {
-            content: "_____";
-            opacity: 0.7;
+            cursor: pointer;
         }
 
         .blank-space.filled {
@@ -177,36 +195,43 @@
             border: 2px solid #27ae60;
             color: white;
         }
-        .blank-space.filled::after {
-            content: "";
-        }
 
-        .blank-space.highlight {
-            background: #3498db;
-            border-color: #2980b9;
-            color: white;
-            transform: scale(1.05);
-        }
-
-        .blank-space.correct-answer {
+        .blank-space.correct {
             background: #2ecc71;
             border-color: #27ae60;
             color: white;
         }
-        .blank-space.correct-answer::after {
-            content: "";
-        }
 
-        .blank-space.wrong-answer {
+        .blank-space.wrong {
             background: #e74c3c;
             border-color: #c0392b;
             color: white;
         }
-        .blank-space.wrong-answer::after {
-            content: "";
+
+        .blank-space.show-correct {
+            background: #e74c3c;
+            border-color: #c0392b;
+            color: white;
+            position: relative;
         }
 
-        /* منطقة الكلمات */
+        .blank-space.show-correct::after {
+            content: "✓";
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #27ae60;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+
         .words-area {
             background: #8b6e4b;
             padding: 15px 10px;
@@ -235,16 +260,15 @@
             color: #1e3a2f;
             padding: 8px 12px;
             border-radius: 30px;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: bold;
             box-shadow: 0 3px 0 #b47d2e;
             border: 1px solid #ffe39c;
             display: inline-block;
-            min-width: 65px;
+            min-width: 70px;
             text-align: center;
             transition: all 0.2s;
             cursor: pointer;
-            touch-action: manipulation;
         }
 
         .word-item:active {
@@ -268,19 +292,17 @@
             transform: translateY(2px);
         }
 
-        /* رسالة التوجيه */
         .guide-message {
             background: #3498db;
             color: white;
             padding: 10px;
             border-radius: 25px;
-            font-size: 0.95rem;
+            font-size: 1rem;
             text-align: center;
             margin: 12px 0 5px;
             border: 1px solid #2980b9;
         }
 
-        /* الأزرار */
         .action-buttons {
             display: flex;
             flex-direction: column;
@@ -305,7 +327,6 @@
             justify-content: center;
             gap: 8px;
             width: 100%;
-            touch-action: manipulation;
         }
 
         .action-btn:active {
@@ -318,39 +339,62 @@
             box-shadow: 0 4px 0 #27ae60;
         }
 
-        .action-btn.reset {
-            background-color: #e67e22;
-            box-shadow: 0 4px 0 #b85e0a;
+        .action-btn.new-game {
+            background-color: #3498db;
+            box-shadow: 0 4px 0 #2980b9;
         }
 
-        .action-btn:disabled {
-            opacity: 0.5;
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #7e5e2b;
-            pointer-events: none;
-        }
-
-        /* رسالة النتيجة */
         .result-box {
             text-align: center;
-            font-size: 1.1rem;
-            padding: 12px;
-            margin: 5px 15px;
+            font-size: 1.2rem;
+            padding: 15px;
+            margin: 10px 15px;
             border-radius: 30px;
             font-weight: bold;
-            background: #f39c12;
+            animation: popIn 0.5s;
+            white-space: pre-line;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .result-box.excellent {
+            background: linear-gradient(145deg, #f1c40f, #f39c12);
+            color: #1e3a2f;
+            box-shadow: 0 0 20px gold;
+        }
+
+        .result-box.celebration {
+            background: linear-gradient(145deg, #f1c40f, #e67e22);
+            color: #1e3a2f;
+            animation: celebrate 1s infinite;
+        }
+
+        .result-box.bad {
+            background: linear-gradient(145deg, #e74c3c, #c0392b);
             color: white;
         }
 
-        .result-box.success {
-            background: gold;
-            color: #1e3a2f;
-            animation: glow 1s infinite;
+        @keyframes celebrate {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px gold; }
+            50% { transform: scale(1.05); box-shadow: 0 0 40px #f1c40f; }
         }
 
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 10px gold; }
-            50% { box-shadow: 0 0 20px #f1c40f; }
+        .sound-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .sound-status.off {
+            opacity: 0.5;
         }
 
         .footer {
@@ -361,46 +405,32 @@
             font-size: 1rem;
             border-top: 3px solid #f3b33d;
         }
-        
-        /* --- تذييل إضافي لعداد الزوار --- */
-        .visitor-footer {
-            background-color: #2d5a44;
-            color: #ffefc0;
-            text-align: center;
-            padding: 8px 10px;
-            font-size: 0.9rem;
-            border-top: 1px solid #f3b33d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .visitor-footer img {
-            display: inline-block;
-            vertical-align: middle;
-            border-radius: 15px;
-            background: white;
-            padding: 2px 5px;
-        }
-        /* ---------------------------- */
 
-        /* تحسين للشاشات الصغيرة */
+        .correct-answer-hint {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            margin-right: 5px;
+        }
+
         @media (max-width: 360px) {
             .word-item {
                 padding: 6px 10px;
-                min-width: 55px;
-                font-size: 0.85rem;
+                min-width: 60px;
+                font-size: 0.9rem;
             }
             
             .blank-space {
-                min-width: 60px;
+                min-width: 65px;
                 padding: 4px 6px;
-                font-size: 0.85rem;
+                font-size: 0.9rem;
             }
             
-            .story-text {
-                font-size: 0.9rem;
+            .full-story {
+                font-size: 1rem;
             }
         }
     </style>
@@ -414,37 +444,43 @@
             <div class="game-subtitle">قصة العمل - الصف الرابع الابتدائي</div>
         </div>
 
-        <div class="progress-bar">
-            <div class="score">
-                <span>⭐</span> <span id="scoreValue">0</span>
+        <div class="visitor-counter">
+            <span>👥 عدد الزوار</span>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <div class="visitor-box">
+                    <span id="visitorCount">0</span>
+                </div>
+                <div class="sound-status" id="soundToggle">
+                    <span id="soundIcon">🔊</span>
+                    <span id="soundText">صوت</span>
+                </div>
             </div>
-            <div class="stars" id="starsDisplay">☆☆☆</div>
-            <div class="level" id="levelDisplay">مستوى 1</div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="score hidden" id="scoreBox">
+                <span class="star">⭐</span> 
+                <span id="scoreValue">0</span>
+            </div>
+            <div>
+                <button class="action-btn new-game" id="newGameBtn">🔄 لعبة جديدة</button>
+        </div>
+            <div class="correct-count" id="correctCount">
+                ✅ 0/10
+            </div>
+
         </div>
 
         <div class="story-area">
             <div class="story-card">
-                <div class="story-title">📖 اضغط على الكلمة ثم على الفراغ</div>
+                <div class="story-title">📖 القصة كاملة - اختر الكلمات المناسبة</div>
                 
-                <div class="story-text">
-                    <p>جاء رجل إلى النبي محمد ﷺ وقال: 
-                    "يا رسول الله، إني <span class="blank-space waiting" id="blank1"></span> فساعدني".</p>
-                    
-                    <p>فأعطاه النبي ﷺ <span class="blank-space waiting" id="blank2"></span> وقال له: 
-                    "اذهب واجمع <span class="blank-space waiting" id="blank3"></span> وبعه".</p>
-                    
-                    <p>ذهب الرجل إلى <span class="blank-space waiting" id="blank4"></span> وبدأ يجمع الخشب.</p>
-                    
-                    <p>باع الرجل الخشب واشترى لأولاده <span class="blank-space waiting" id="blank5"></span> و<span class="blank-space waiting" id="blank6"></span>.</p>
-                    
-                    <p>قال النبي ﷺ للرجل: 
-                    "هذا <span class="blank-space waiting" id="blank7"></span> لك من أن تقعد 
-                    <span class="blank-space waiting" id="blank8"></span> وتشكو من 
-                    <span class="blank-space waiting" id="blank9"></span>".</p>
+                <div class="full-story" id="fullStory">
+                    <!-- النص الكامل مع الفراغات سيتم وضعه هنا -->
                 </div>
 
                 <div class="words-area">
-                    <div class="words-title">👇 اضغط على الكلمة (ستتغير للأزرق)</div>
+                    <div class="words-title">👇 اضغط على الكلمة (<span id="wordsCount">10</span> كلمات متاحة)</div>
                     <div class="words-container" id="wordsContainer"></div>
                 </div>
 
@@ -456,8 +492,6 @@
 
         <div class="action-buttons">
             <button class="action-btn check" id="checkBtn">✅ تحقق من إجاباتي</button>
-            <button class="action-btn reset" id="resetBtn">🔄 ابدأ من جديد</button>
-            <button class="action-btn" id="nextLevelBtn" disabled>⭐ المستوى التالي</button>
         </div>
 
         <div id="resultDisplay"></div>
@@ -465,88 +499,316 @@
         <div class="footer">
             ﴿ وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَى ﴾
         </div>
-        
-        <!-- =================================================== -->
-        <!-- منطقة عداد الزوار - أضيفت خصيصًا لموقع noorameen452 -->
-        <!-- =================================================== -->
-        <div class="visitor-footer">
-            <span>👥 عدد زوار هذه الصفحة:</span>
-            <img src="https://visitor-badge.laobi.icu/badge?page_id=noorameen452.4PriRead" 
-                 alt="عداد الزوار"
-                 title="عدد الزوار الفريدين لهذه الصفحة">
-        </div>
-        <!-- =================================================== -->
-        
     </div>
 
     <script>
-        // الكلمات الصحيحة لكل فراغ
-        const correctAnswers = {
-            blank1: "فقير",
-            blank2: "فأساً",
-            blank3: "الحطب",
-            blank4: "الجبل",
-            blank5: "ثياباً",
-            blank6: "طعاماً",
-            blank7: "خير",
-            blank8: "بلا عملٍ",
-            blank9: "الفقر"
-        };
+        // إحصائيات الزوار
+        function updateVisitorCount() {
+            let visitors = localStorage.getItem('gameVisitors');
+            if (!visitors) visitors = 1;
+            else visitors = parseInt(visitors) + 1;
+            localStorage.setItem('gameVisitors', visitors);
+            document.getElementById('visitorCount').textContent = visitors;
+        }
 
-        // جميع الكلمات المتاحة (مع كلمات خاطئة)
-        const allWords = [
-            "فقير", "غني", "فأساً", "سيفاً", "الحطب", "التمر", 
-            "الجبل", "البحر", "ثياباً", "ألعاباً", "طعاماً", "حلوى",
-            "خير", "شر", "بلا عملٍ", "بلا مال", "الفقر", "المرض"
-        ];
+        // النص الكامل للقصة
+        const fullStoryText = `جاء رجل إلى النبي محمد صلى الله عليه وسلم وقال: يا رسول الله، إني فقير فساعدني. فأعطاه النبي صلى الله عليه وسلم فأساً وقال له: اذهب واجمع الحطب وبعه، ثم ارجع إلي. حمل الرجل فأسه وذهب إلى الجبل، وأخذ يقطع الحطب ويجمعه، ثم يبيعه، فربح مالاً كثيراً، واشترى لأولاده ثياباً وطعاماً، فعرف لذة العمل. ولما عاد إلى النبي صلى الله عليه وسلم قال له: هذا خير لك من أن تقعد بلا عملٍ، وتشكو من الفقر.`;
 
         // متغيرات اللعبة
         let currentScore = 0;
-        let currentLevel = 1;
-        let filledBlanks = [false, false, false, false, false, false, false, false, false];
+        let filledBlanks = [];
         let selectedWordElement = null;
         let selectedWordText = "";
+        let correctAnswers = [];
+        let blankPositions = [];
+        let blankElements = [];
+        let availableWords = [];
+        let audioContext = null;
+        let soundEnabled = true;
+        let gameChecked = false; // متغير جديد لتتبع ما إذا تم التحقق
 
         // عناصر الصفحة
-        const scoreSpan = document.getElementById('scoreValue');
-        const starsSpan = document.getElementById('starsDisplay');
-        const levelSpan = document.getElementById('levelDisplay');
+        const fullStoryDiv = document.getElementById('fullStory');
         const wordsContainer = document.getElementById('wordsContainer');
         const guideMsg = document.getElementById('guideMessage');
+        const scoreSpan = document.getElementById('scoreValue');
+        const scoreBox = document.getElementById('scoreBox');
+        const correctCountSpan = document.getElementById('correctCount');
         const checkBtn = document.getElementById('checkBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const nextBtn = document.getElementById('nextLevelBtn');
+        const newGameBtn = document.getElementById('newGameBtn');
         const resultDiv = document.getElementById('resultDisplay');
+        const wordsCountSpan = document.getElementById('wordsCount');
+        const soundToggle = document.getElementById('soundToggle');
+        const soundIcon = document.getElementById('soundIcon');
+        const soundText = document.getElementById('soundText');
 
-        // عرض الكلمات في الشاشة
-        function displayWords() {
-            // خلط الكلمات عشوائياً
-            const shuffled = [...allWords].sort(() => Math.random() - 0.5);
+        // تهيئة AudioContext
+        function getAudioContext() {
+            if (!audioContext) {
+                try {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                } catch(e) {
+                    console.log('Web Audio API غير مدعوم');
+                }
+            }
+            return audioContext;
+        }
+
+        // تشغيل الصوت
+        function playSound(type) {
+            if (!soundEnabled) return;
+            
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+
+                const now = ctx.currentTime;
+                
+                if (type === 'select') {
+                    for (let i = 0; i < 2; i++) {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.type = 'sine';
+                        osc.frequency.value = 523.25 + (i * 131);
+                        gain.gain.setValueAtTime(0.1, now + i * 0.05);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.05 + 0.1);
+                        osc.start(now + i * 0.05);
+                        osc.stop(now + i * 0.05 + 0.1);
+                    }
+                }
+                else if (type === 'place') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(392, now);
+                    osc.frequency.exponentialRampToValueAtTime(523.25, now + 0.15);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                }
+                else if (type === 'correct') {
+                    const notes = [523.25, 659.25, 783.99];
+                    notes.forEach((freq, i) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.type = 'sine';
+                        osc.frequency.value = freq;
+                        gain.gain.setValueAtTime(0.1, now + i * 0.1);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.1 + 0.15);
+                        osc.start(now + i * 0.1);
+                        osc.stop(now + i * 0.1 + 0.15);
+                    });
+                }
+                else if (type === 'wrong') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(261.63, now);
+                    osc.frequency.exponentialRampToValueAtTime(220, now + 0.2);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                }
+                else if (type === 'check') {
+                    for (let i = 0; i < 3; i++) {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.type = 'sine';
+                        osc.frequency.value = 392 + (i * 131);
+                        gain.gain.setValueAtTime(0.1, now + i * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.08 + 0.12);
+                        osc.start(now + i * 0.08);
+                        osc.stop(now + i * 0.08 + 0.12);
+                    }
+                }
+                else if (type === 'excellent') {
+                    const notes = [523.25, 659.25, 783.99, 1046.5];
+                    notes.forEach((freq, i) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.type = 'sine';
+                        osc.frequency.value = freq;
+                        gain.gain.setValueAtTime(0.15, now + i * 0.12);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.12 + 0.2);
+                        osc.start(now + i * 0.12);
+                        osc.stop(now + i * 0.12 + 0.2);
+                    });
+                }
+                else if (type === 'bad') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(329.63, now);
+                    osc.frequency.exponentialRampToValueAtTime(261.63, now + 0.4);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
+                    osc.start(now);
+                    osc.stop(now + 0.45);
+                }
+                else if (type === 'newgame') {
+                    const notes = [392, 523.25, 659.25];
+                    notes.forEach((freq, i) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.type = 'sine';
+                        osc.frequency.value = freq;
+                        gain.gain.setValueAtTime(0.1, now + i * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.08 + 0.1);
+                        osc.start(now + i * 0.08);
+                        osc.stop(now + i * 0.08 + 0.1);
+                    });
+                }
+            } catch(e) {
+                console.log('خطأ في تشغيل الصوت');
+            }
+        }
+
+        // تشغيل/إيقاف الصوت
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            if (soundEnabled) {
+                soundIcon.textContent = '🔊';
+                soundText.textContent = 'صوت';
+                soundToggle.classList.remove('off');
+                playSound('select');
+            } else {
+                soundIcon.textContent = '🔇';
+                soundText.textContent = 'كتم';
+                soundToggle.classList.add('off');
+            }
+        }
+
+        // تنظيف الكلمة من علامات الترقيم
+        function cleanWord(word) {
+            return word.replace(/[،,.;:!؟]/g, '').trim();
+        }
+
+        // توليد 10 مواقع عشوائية مختلفة في النص
+        function generateRandomPositions(text) {
+            const words = text.split(' ');
+            const positions = [];
+            const maxAttempts = 1000;
+            let attempts = 0;
+            
+            while (positions.length < 10 && attempts < maxAttempts) {
+                const pos = Math.floor(Math.random() * words.length);
+                const word = words[pos];
+                const cleanedWord = cleanWord(word);
+                
+                if (cleanedWord && cleanedWord.length > 1 && !positions.includes(pos)) {
+                    positions.push(pos);
+                }
+                
+                attempts++;
+            }
+            
+            while (positions.length < 10) {
+                const pos = Math.floor(Math.random() * words.length);
+                if (!positions.includes(pos)) {
+                    positions.push(pos);
+                }
+            }
+            
+            return positions.sort((a, b) => a - b);
+        }
+
+        // استخراج الكلمات من المواقع المختارة
+        function extractWordsFromPositions(positions, text) {
+            const words = text.split(' ');
+            const extractedWords = [];
+            
+            for (let pos of positions) {
+                let word = words[pos];
+                let cleanedWord = cleanWord(word);
+                extractedWords.push(cleanedWord);
+            }
+            
+            return extractedWords;
+        }
+
+        // بناء القصة مع الفراغات
+        function buildStoryWithBlanks() {
+            const words = fullStoryText.split(' ');
+            
+            blankPositions = generateRandomPositions(fullStoryText);
+            correctAnswers = extractWordsFromPositions(blankPositions, fullStoryText);
+            
+            let result = '';
+            let blankIndex = 0;
+            
+            for (let i = 0; i < words.length; i++) {
+                if (blankPositions.includes(i)) {
+                    result += `<span class="blank-space waiting" data-index="${blankIndex}"></span> `;
+                    blankIndex++;
+                } else {
+                    result += words[i] + ' ';
+                }
+            }
+            
+            fullStoryDiv.innerHTML = result;
+            
+            blankElements = document.querySelectorAll('.blank-space');
+            filledBlanks = new Array(10).fill(false);
+            
+            blankElements.forEach(blank => {
+                blank.onclick = () => fillBlank(blank);
+            });
+            
+            availableWords = [...correctAnswers];
+            availableWords.sort(() => Math.random() - 0.5);
+        }
+
+        // عرض الكلمات المتاحة
+        function displayAvailableWords() {
             wordsContainer.innerHTML = '';
             
-            shuffled.forEach(word => {
+            availableWords.forEach((word, index) => {
                 const wordSpan = document.createElement('span');
                 wordSpan.className = 'word-item';
                 wordSpan.textContent = word;
+                wordSpan.dataset.index = index;
                 wordSpan.onclick = () => selectWord(wordSpan);
                 wordsContainer.appendChild(wordSpan);
             });
+            
+            wordsCountSpan.textContent = availableWords.length;
         }
 
         // اختيار كلمة
         function selectWord(element) {
-            // إذا كانت الكلمة مستخدمة مسبقاً
             if (element.classList.contains('used')) {
                 guideMsg.textContent = '❌ هذه الكلمة مستخدمة بالفعل';
                 return;
             }
             
-            // إزالة التحديد من الكلمة السابقة
+            playSound('select');
+            
             if (selectedWordElement) {
                 selectedWordElement.classList.remove('selected');
             }
             
-            // تحديد الكلمة الجديدة
             selectedWordElement = element;
             selectedWordText = element.textContent;
             element.classList.add('selected');
@@ -554,182 +816,169 @@
             guideMsg.textContent = `👈 الآن اضغط على الفراغ المناسب لكلمة "${selectedWordText}"`;
         }
 
-        // تهيئة الفراغات
-        function setupBlanks() {
-            for (let i = 1; i <= 9; i++) {
-                const blank = document.getElementById(`blank${i}`);
-                blank.onclick = () => fillBlank(blank, i);
-            }
-        }
-
         // ملء الفراغ
-        function fillBlank(blankElement, blankNumber) {
-            // إذا لم يتم اختيار كلمة
+        function fillBlank(blankElement) {
             if (!selectedWordElement) {
                 guideMsg.textContent = '👆 اختر كلمة أولاً';
                 return;
             }
             
-            // إذا كان الفراغ مملوءاً
-            if (filledBlanks[blankNumber - 1]) {
+            const index = parseInt(blankElement.dataset.index);
+            
+            if (filledBlanks[index]) {
                 guideMsg.textContent = '⚠️ هذا الفراغ مملوء بالفعل';
                 return;
             }
             
-            // وضع الكلمة في الفراغ (نزيل المحتوى الافتراضي ___)
+            playSound('place');
+            
             blankElement.textContent = selectedWordText;
             blankElement.classList.remove('waiting');
             blankElement.classList.add('filled');
             
-            // تعطيل الكلمة المستخدمة
             selectedWordElement.classList.remove('selected');
             selectedWordElement.classList.add('used');
             
-            // تحديث حالة الفراغ
-            filledBlanks[blankNumber - 1] = true;
-            
-            // إضافة نقاط تشجيعية
-            currentScore += 5;
-            updateScore();
+            filledBlanks[index] = true;
             
             guideMsg.textContent = `✅ تم وضع "${selectedWordText}" في الفراغ`;
             
-            // إعادة تعيين الكلمة المختارة
             selectedWordElement = null;
             
-            // التحقق من اكتمال جميع الفراغات
-            if (filledBlanks.every(v => v === true)) {
-                guideMsg.textContent = '🎉 أحسنت! لقد ملأت جميع الفراغات. اضغط على "تحقق من إجاباتي"';
+            const usedWords = document.querySelectorAll('.word-item.used').length;
+            const remainingWords = availableWords.length - usedWords;
+            wordsCountSpan.textContent = remainingWords;
+            
+            if (usedWords === availableWords.length) {
+                guideMsg.textContent = '🎉 أحسنت! استخدمت جميع الكلمات. اضغط على "تحقق من إجاباتي"';
             }
         }
 
-        // تحديث النقاط والنجوم
-        function updateScore() {
-            scoreSpan.textContent = currentScore;
+        // دالة عرض الإجابة الصحيحة في الفراغ الخاطئ
+        function showCorrectAnswer(blankElement, correctAnswer) {
+            // حفظ الإجابة الخاطئة مؤقتاً
+            const wrongAnswer = blankElement.textContent;
             
-            if (currentScore >= 90) {
-                starsSpan.textContent = '★★★';
-            } else if (currentScore >= 60) {
-                starsSpan.textContent = '★★☆';
-            } else if (currentScore >= 30) {
-                starsSpan.textContent = '★☆☆';
-            }
-        }
-
-        // التحقق من الإجابات
-        function checkAllAnswers() {
-            let correctCount = 0;
+            // تغيير لون الخلفية ومحتوى الفراغ
+            blankElement.classList.remove('filled', 'correct', 'wrong');
+            blankElement.classList.add('show-correct');
+            blankElement.innerHTML = `${correctAnswer} <span class="correct-answer-hint">✓</span>`;
             
-            for (let i = 1; i <= 9; i++) {
-                const blank = document.getElementById(`blank${i}`);
-                const userAnswer = blank.textContent;
-                const correctAnswer = correctAnswers[`blank${i}`];
-                
-                if (userAnswer === correctAnswer) {
-                    blank.classList.remove('filled', 'wrong-answer');
-                    blank.classList.add('correct-answer');
-                    correctCount++;
-                } else {
-                    blank.classList.remove('filled', 'correct-answer');
-                    blank.classList.add('wrong-answer');
-                    
-                    // إعادة الكلمة الخاطئة إلى منطقة الكلمات
-                    if (userAnswer && userAnswer !== "_____" && userAnswer.trim() !== "") {
-                        const wordElements = document.querySelectorAll('.word-item');
-                        for (let word of wordElements) {
-                            if (word.textContent === userAnswer && word.classList.contains('used')) {
-                                word.classList.remove('used');
-                                break;
-                            }
-                        }
+            // إعادة الكلمة الخاطئة إلى الكلمات المتاحة إذا كانت مستخدمة
+            if (wrongAnswer) {
+                const wordElements = document.querySelectorAll('.word-item');
+                for (let word of wordElements) {
+                    if (word.textContent === wrongAnswer && word.classList.contains('used')) {
+                        word.classList.remove('used');
+                        word.style.opacity = '1';
+                        word.style.pointerEvents = 'auto';
+                        break;
                     }
-                    
-                    // إفراغ الفراغ وإعادته لحالة الانتظار
-                    blank.textContent = '';
-                    blank.classList.add('waiting');
-                    filledBlanks[i-1] = false;
                 }
             }
             
-            // إضافة نقاط إضافية
-            currentScore += correctCount * 10;
-            updateScore();
-            
-            // عرض النتيجة
-            if (correctCount === 9) {
-                resultDiv.innerHTML = '<div class="result-box success">🏆 ماشاء الله! جميع الإجابات صحيحة. حفظت القصة كاملة 🏆</div>';
-                nextBtn.disabled = false;
-                guideMsg.textContent = '🎊 تهانينا! يمكنك الانتقال للمستوى التالي';
-            } else {
-                resultDiv.innerHTML = `<div class="result-box">📝 لديك ${correctCount} من 9 إجابات صحيحة. حاول مرة أخرى</div>`;
-                nextBtn.disabled = true;
-            }
+            // تحديث عدد الكلمات المتاحة
+            const usedWords = document.querySelectorAll('.word-item.used').length;
+            wordsCountSpan.textContent = availableWords.length - usedWords;
         }
 
-        // إعادة تعيين اللعبة
-        function resetGame() {
-            // إفراغ جميع الفراغات
-            for (let i = 1; i <= 9; i++) {
-                const blank = document.getElementById(`blank${i}`);
-                blank.textContent = '';
-                blank.classList.remove('filled', 'correct-answer', 'wrong-answer');
-                blank.classList.add('waiting');
-            }
+        // التحقق من الإجابات مع عرض الإجابات الصحيحة
+        function checkAllAnswers() {
+            playSound('check');
             
-            // إعادة ضبط المتغيرات
-            filledBlanks = [false, false, false, false, false, false, false, false, false];
+            let correctCount = 0;
             
-            // إعادة تفعيل جميع الكلمات
-            document.querySelectorAll('.word-item').forEach(word => {
-                word.classList.remove('used', 'selected');
+            blankElements.forEach((blank, index) => {
+                const userAnswer = blank.textContent;
+                const correctAnswer = correctAnswers[index];
+                
+                // إزالة أي كلاسات سابقة
+                blank.classList.remove('filled', 'correct', 'wrong', 'show-correct');
+                
+                if (userAnswer === correctAnswer) {
+                    // إجابة صحيحة
+                    blank.classList.add('correct');
+                    blank.textContent = correctAnswer;
+                    correctCount++;
+                } else {
+                    // إجابة خاطئة أو فراغ فارغ - نعرض الإجابة الصحيحة
+                    playSound('wrong');
+                    showCorrectAnswer(blank, correctAnswer);
+                }
             });
             
-            // إعادة تعيين الكلمة المختارة
-            if (selectedWordElement) {
-                selectedWordElement.classList.remove('selected');
-                selectedWordElement = null;
+            // تحديث النتيجة وعرض صندوق النتيجة
+            gameChecked = true;
+            currentScore = correctCount * 5;
+            scoreSpan.textContent = currentScore;
+            scoreBox.classList.remove('hidden');
+            
+            if (correctCount === 10) {
+                playSound('excellent');
+            } else if (correctCount < 5) {
+                playSound('bad');
             }
             
-            // إعادة ضبط النتيجة والرسائل
+            correctCountSpan.textContent = `✅ ${correctCount}/10`;
+            
+            // عرض رسالة النتيجة
+            let message = '';
+            let messageClass = '';
+            
+            if (correctCount === 10) {
+                message = '🎉🎊 مبروك! إجابة مثالية! 🎊🎉\nأجبت على جميع الأسئلة بشكل صحيح! أنت بطل القصة!';
+                messageClass = 'celebration';
+                guideMsg.textContent = '🏆 أحسنت! إجابة مثالية!';
+            } else if (correctCount > 5) {
+                message = `🌟 أحسنت! لديك ${correctCount} إجابات صحيحة من 10.\nالفراغات الحمراء تظهر الإجابة الصحيحة!`;
+                messageClass = 'excellent';
+                guideMsg.textContent = '👍 أداء ممتاز! انظر للإجابات الصحيحة';
+            } else {
+                message = `📝 لديك ${correctCount} إجابات صحيحة من 10.\nالفراغات الحمراء تظهر الإجابة الصحيحة - حاول مرة أخرى!`;
+                messageClass = 'bad';
+                guideMsg.textContent = '💪 لا تستسلم! الإجابات الصحيحة ظاهرة باللون الأحمر';
+            }
+            
+            resultDiv.innerHTML = `<div class="result-box ${messageClass}">${message}</div>`;
+            
+            // منع المزيد من التفاعل مع الفراغات بعد التحقق
+            blankElements.forEach(blank => {
+                blank.onclick = null;
+                blank.style.cursor = 'default';
+            });
+        }
+
+        // لعبة جديدة
+        function newGame() {
+            playSound('newgame');
+            
+            buildStoryWithBlanks();
+            displayAvailableWords();
+            
+            currentScore = 0;
+            selectedWordElement = null;
+            gameChecked = false;
+            
+            // إخفاء صندوق النتيجة
+            scoreSpan.textContent = '0';
+            scoreBox.classList.add('hidden');
+            correctCountSpan.textContent = '✅ 0/10';
             resultDiv.innerHTML = '';
             guideMsg.innerHTML = 'اضغط على كلمة، ثم اضغط على الفراغ المناسب';
         }
 
-        // المستوى التالي
-        function goToNextLevel() {
-            if (currentLevel < 3) {
-                currentLevel++;
-                levelSpan.textContent = `مستوى ${currentLevel}`;
-                
-                resetGame();
-                
-                if (currentLevel === 2) {
-                    guideMsg.textContent = '🔰 المستوى الثاني: اختر الكلمات الصحيحة بدقة';
-                } else if (currentLevel === 3) {
-                    guideMsg.textContent = '⚡ المستوى الثالث: اعتمد على حفظك للقصة';
-                }
-                
-                nextBtn.disabled = true;
-            } else {
-                resultDiv.innerHTML = '<div class="result-box success">🎓 أنت بطل الحفظ! أكملت جميع المستويات 🎓</div>';
-            }
-        }
-
-        // منع القائمة المنبثقة عند الضغط المطول
         document.addEventListener('contextmenu', (e) => e.preventDefault());
 
-        // بدء اللعبة
         function startGame() {
-            displayWords();
-            setupBlanks();
+            updateVisitorCount();
+            newGame();
             
             checkBtn.onclick = checkAllAnswers;
-            resetBtn.onclick = resetGame;
-            nextBtn.onclick = goToNextLevel;
+            newGameBtn.onclick = newGame;
+            soundToggle.onclick = toggleSound;
         }
 
-        // تأكد من تحميل الصفحة بالكامل قبل بدء اللعبة
-        window.onload = startGame;
+        startGame();
     </script>
 </body>
 </html>
